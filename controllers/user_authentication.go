@@ -6,7 +6,6 @@ import (
 	response "api/utils"
 	"encoding/json"
 	"net/http"
-
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"golang.org/x/crypto/bcrypt"
