@@ -13,7 +13,7 @@ var (
 	access_token_private *rsa.PrivateKey
 	refresh_token_private *rsa.PrivateKey
 
-	// access_token_public *rsa.PublicKey
+	Access_token_public *rsa.PublicKey
 	Refresh_token_public *rsa.PublicKey
 )
 
@@ -22,7 +22,7 @@ func init() {
 	access_pri_dir, access_pub_dir := os.Getenv("ACCESS_PRIVATE_TOKEN_DIR"), os.Getenv("ACCESS_PUBLIC_TOKEN_DIR")
 	refresh_pri_dir, refresh_pub_dir := os.Getenv("REFRESH_PRIVATE_TOKEN_DIR"), os.Getenv("REFRESH_PUBLIC_TOKEN_DIR")
 	var err error
-	access_token_private, _, err = SetToken(access_pri_dir, access_pub_dir)
+	access_token_private, Access_token_public, err = SetToken(access_pri_dir, access_pub_dir)
 	if err != nil{
 		log.Fatal(err)
 		return

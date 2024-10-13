@@ -16,7 +16,7 @@ func Logout(w http.ResponseWriter, r *http.Request){
 		return
 	}
 	val := jwt.Value
-	userId, err := jwt_util.Verify(w,r,val)
+	userId, err := jwt_util.Verify(w,r,val, jwt_util.Refresh_token_public)
 	if err != nil || userId == ""{
 		http.Error(w, err.Error(), http.StatusUnauthorized)
 		return

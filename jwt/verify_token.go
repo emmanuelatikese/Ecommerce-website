@@ -7,13 +7,13 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func Verify(w http.ResponseWriter, r *http.Request, value string) (string, error) {
+func Verify(w http.ResponseWriter, r *http.Request, value string, public_token interface{}) (string, error) {
 	tk, err := jwt.Parse(value, func(tk *jwt.Token) (interface{}, error) {
 		if _, ok := tk.Method.(*jwt.SigningMethodRSA); !ok {
 			err := errors.New("invalid token")
 			return "", err
 		}
-		return Refresh_token_public, nil
+		return public_token, nil
 	})
 	if err != nil {
 		log.Print(err)
