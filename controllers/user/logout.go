@@ -1,11 +1,26 @@
 package user_controllers
 
 import (
+	redis_db "api/db/redis"
+	jwt_util "api/jwt"
 	"net/http"
 	"time"
 )
 
 func Logout(w http.ResponseWriter, r *http.Request){
+	ctx := r.Context()
+	jwt, err := r.Cookie("refresh_token")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	val := jwt.Value
+	userId, err := jwt_util.Verify(w,r,val)
+	if err != nil{
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+		return
+	}
+	redis_db.RedisCli.Del(ctx, userId.(string))
 	access_cookies := &http.Cookie{
 		Name: "access_token",
 		Value: "",
@@ -24,6 +39,9 @@ func Logout(w http.ResponseWriter, r *http.Request){
         Secure:   true,
         MaxAge:   -1,
 	}
+
+
+
 	http.SetCookie(w, access_cookies)
 	http.SetCookie(w, refresh_cookies)
 }
