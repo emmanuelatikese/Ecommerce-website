@@ -3,6 +3,7 @@ package db_mongo
 import (
 	"context"
 	"os"
+
 	"github.com/subosito/gotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -10,7 +11,9 @@ import (
 
 var (
 	UserCollection *mongo.Collection
+
 )
+
 
 func ConnectDB() error{
 	gotenv.Load()

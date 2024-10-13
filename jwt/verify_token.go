@@ -7,7 +7,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func Verify(w http.ResponseWriter, r *http.Request, value string) (interface{}, error) {
+func Verify(w http.ResponseWriter, r *http.Request, value string) (string, error) {
 	tk, err := jwt.Parse(value, func(tk *jwt.Token) (interface{}, error) {
 		if _, ok := tk.Method.(*jwt.SigningMethodRSA); !ok {
 			err := errors.New("invalid token")
@@ -22,7 +22,12 @@ func Verify(w http.ResponseWriter, r *http.Request, value string) (interface{}, 
 	if tk.Valid {
 		if jwtMap, ok := tk.Claims.(jwt.MapClaims); ok {
 			value := jwtMap["sub"]
-			return value, nil
+			str_val, ok := value.(string)
+			if !ok{
+				log.Print(err)
+				return "", err
+			}
+			return str_val, nil
 		}
 	}
 	return "", err

@@ -3,6 +3,7 @@ package main
 import (
 	db_mongo "api/db/mongo"
 	redis_db "api/db/redis"
+	user_route "api/routes/user"
 	"log"
 	"net/http"
 
@@ -23,6 +24,7 @@ func main() {
 	log.Println("Connected to redis...")
 	log.Println("Connected to mongo...")
 	mux := mux.NewRouter().StrictSlash(false)
+	user_route.UserRoutes(mux)
 	log.Println("listening on Port: 8080..., localhost:http://localhost:8080")
 	http.ListenAndServe(":8080", mux)
 }
