@@ -2,6 +2,8 @@ package user_controllers
 
 import (
 	db_mongo "api/db/mongo"
+	redis_db "api/db/redis"
+	jwt_util "api/jwt"
 	"api/models"
 	response "api/utils"
 	"encoding/json"
@@ -59,10 +61,19 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//generate tokens
+	access_token, refresh_token, err := jwt_util.GenerateToken(insert_id)
+	if err != nil{
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	strId := insert_id.InsertedID.(string)
+
+	redis_db.SetRfToken(strId, refresh_token, ctx)
+	jwt_util.SetCookie(access_token, refresh_token, w)
+
 
 	res := map[string]interface{}{
-		"_id": insert_id,
+		"_id": insert_id.InsertedID,
 		"username": new_user.Username,
 		"email": new_user.Email,
 		"cart_item": []models.Cart{},

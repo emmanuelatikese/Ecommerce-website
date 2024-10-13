@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 	"time"
-
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/subosito/gotenv"
 )
@@ -63,6 +62,6 @@ func GenerateToken(id interface{}) (string, string, error) {
 		log.Fatal(err)
 		return "", "", err
 	}
-	
+
 	return access_token_str, refresh_token_str, nil
 }
