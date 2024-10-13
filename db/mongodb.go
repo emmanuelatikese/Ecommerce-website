@@ -21,7 +21,7 @@ func ConnectDB() error{
 	if err != nil {
 		return err
 	}
-	db := client.Database("apiEcommence")
+	db := client.Database("E-commence_db")
 	UserCollection = db.Collection("user-collection")
 	return nil
 }

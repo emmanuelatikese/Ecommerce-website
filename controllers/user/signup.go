@@ -1,4 +1,4 @@
-package controllers
+package user_controllers
 
 import (
 	db_mongo "api/db"
@@ -33,14 +33,11 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 	}
 	var user_exist models.User
 	err = UserCollection.FindOne(ctx, bson.M{"username": new_user_map["username"]}).Decode(&user_exist)
-	if err != nil{
-		if err == mongo.ErrNoDocuments{
+		if err != mongo.ErrNoDocuments{
 			http.Error(w, "User already exist", http.StatusNotAcceptable)
 			return
 		}
-		http.Error(w, err.Error(), http.StatusNotAcceptable)
-		return
-	}
+
 
 	hashed_password, err := bcrypt.GenerateFromPassword([]byte(new_user_map["password"]), bcrypt.DefaultCost)
 	if err != nil {
@@ -60,6 +57,8 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusNotAcceptable)
 		return
 	}
+
+	//generate tokens
 
 	res := map[string]interface{}{
 		"_id": insert_id,
