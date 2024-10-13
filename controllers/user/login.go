@@ -8,7 +8,6 @@ import (
 	response "api/utils"
 	"encoding/json"
 	"net/http"
-
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"golang.org/x/crypto/bcrypt"
@@ -47,6 +46,12 @@ func Login(w http.ResponseWriter, r *http.Request){
 	}
 	redis_db.SetRfToken(filter_user.Id.String(), refresh_token, ctx)
 	jwt_util.SetCookie(access_token, refresh_token, w)
-
-    response.JsonResponse(filter_user, w, 201)
+    res := &map[string]interface{}{
+        "_id": filter_user.Id,
+        "username": filter_user.Username,
+        "email": filter_user.Email,
+        "cart_item": filter_user.CartItem,
+        "role":filter_user.Role,
+    }
+    response.JsonResponse(res, w, 201)
 }
