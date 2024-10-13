@@ -2,6 +2,8 @@ package user_controllers
 
 import (
 	db_mongo "api/db/mongo"
+	redis_db "api/db/redis"
+	jwt_util "api/jwt"
 	"api/models"
 	response "api/utils"
 	"encoding/json"
@@ -38,6 +40,13 @@ func Login(w http.ResponseWriter, r *http.Request){
         http.Error(w, "password invalid", http.StatusNotAcceptable)
         return
     }
-    //generate token
+    access_token, refresh_token, err := jwt_util.GenerateToken(filter_user.Id)
+	if err != nil{
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	redis_db.SetRfToken(filter_user.Id.String(), refresh_token, ctx)
+	jwt_util.SetCookie(access_token, refresh_token, w)
+
     response.JsonResponse(filter_user, w, 201)
 }

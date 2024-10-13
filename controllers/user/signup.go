@@ -67,7 +67,6 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	strId := insert_id.InsertedID.(string)
-
 	redis_db.SetRfToken(strId, refresh_token, ctx)
 	jwt_util.SetCookie(access_token, refresh_token, w)
 
