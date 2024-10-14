@@ -39,12 +39,12 @@ func Login(w http.ResponseWriter, r *http.Request){
         http.Error(w, "password invalid", http.StatusNotAcceptable)
         return
     }
-    access_token, refresh_token, err := jwt_util.GenerateToken(filter_user.Id)
+    access_token, refresh_token, err := jwt_util.GenerateToken(filter_user.Id.Hex())
 	if err != nil{
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	redis_db.SetRfToken(filter_user.Id.String(), refresh_token, ctx)
+	redis_db.SetRfToken(filter_user.Id.Hex(), refresh_token, ctx)
 	jwt_util.SetCookie(access_token, refresh_token, w)
     res := &map[string]interface{}{
         "_id": filter_user.Id,

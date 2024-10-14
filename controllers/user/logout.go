@@ -12,7 +12,7 @@ func Logout(w http.ResponseWriter, r *http.Request){
 	ctx := r.Context()
 	jwt, err := r.Cookie("refresh_token")
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusUnauthorized)
 		return
 	}
 	val := jwt.Value

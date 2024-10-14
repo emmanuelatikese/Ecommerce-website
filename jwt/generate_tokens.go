@@ -65,3 +65,20 @@ func GenerateToken(id interface{}) (string, string, error) {
 
 	return access_token_str, refresh_token_str, nil
 }
+
+func GenerateAccessToken(id interface{}) (string, error) {
+	access_claims := &jwt.MapClaims{
+		"exp": time.Now().Add(time.Minute * 60 * 15).Unix(),
+		"iat": time.Now().Unix(),
+		"sub": id,
+	}
+
+	acc_token := jwt.NewWithClaims(jwt.SigningMethodRS256, access_claims)
+	access_token_str, err := acc_token.SignedString(access_token_private)
+	if err != nil {
+		log.Fatal(err)
+		return "",  err
+	}
+
+	return access_token_str, nil
+}
