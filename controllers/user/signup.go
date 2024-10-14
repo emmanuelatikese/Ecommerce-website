@@ -7,9 +7,7 @@ import (
 	"api/models"
 	response "api/utils"
 	"encoding/json"
-	"log"
 	"net/http"
-
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -66,7 +64,6 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusNotAcceptable)
 		return
 	}
-		log.Println("Here")
 	priId, ok := insert_id.InsertedID.(primitive.ObjectID)
 	if !ok{
 		http.Error(w, "can't convert id", 500)
@@ -80,7 +77,7 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 	}
 
 	redis_db.SetRfToken(strId, refresh_token, ctx)
-	// log.Println("there")
+
 	jwt_util.SetCookie(access_token, refresh_token, w)
 
 	res := map[string]interface{}{

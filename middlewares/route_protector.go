@@ -5,7 +5,6 @@ import (
 	jwt_util "api/jwt"
 	"context"
 	"net/http"
-
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
