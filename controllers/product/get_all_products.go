@@ -5,7 +5,6 @@ import (
 	response "api/utils"
 	"net/http"
 	"go.mongodb.org/mongo-driver/bson"
-
 )
 
 func GetAllProduct(w http.ResponseWriter, r *http.Request){
@@ -18,7 +17,7 @@ func GetAllProduct(w http.ResponseWriter, r *http.Request){
 	}
 	defer result_cursor.Close(ctx)
 	var all_products []bson.M
-	err = result_cursor.All(ctx, all_products)
+	err = result_cursor.All(ctx, &all_products)
 	if err != nil {
 		http.Error(w,  err.Error(), 500)
 		return

@@ -7,7 +7,6 @@ import (
 	user_route "api/routes/user"
 	"log"
 	"net/http"
-
 	"github.com/gorilla/mux"
 )
 
