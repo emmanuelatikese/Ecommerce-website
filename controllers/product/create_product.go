@@ -50,7 +50,12 @@ func CreateProduct(w http.ResponseWriter, r *http.Request){
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	strId := insertId.InsertedID.(*primitive.ObjectID).Hex()
+	pri_Id, ok := insertId.InsertedID.(primitive.ObjectID)
+	if!ok{
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	strId := pri_Id.Hex()
 
 	res := &bson.M{
 		"_id": strId,

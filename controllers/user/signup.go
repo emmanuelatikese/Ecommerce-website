@@ -85,7 +85,7 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 		"username": new_user.Username,
 		"email": new_user.Email,
 		"cart_item": []models.Cart{},
-		"roles": new_user.Role,
+		"role": new_user.Role,
 	}
 	response.JsonResponse(res, w, 201)
 }
