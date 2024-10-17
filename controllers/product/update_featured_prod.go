@@ -9,18 +9,24 @@ import (
 
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
 func UpdateFeatured(w http.ResponseWriter, r *http.Request){
-	featured := mux.Vars(r)["featured"]
-	if featured == ""{
+	Id := mux.Vars(r)["id"]
+	if Id == ""{
 		http.Error(w, "No category was passed", 404)
 		return
 	}
 	ctx, product_collection := r.Context(), db_mongo.ProductCollection
+	strId, err  := primitive.ObjectIDFromHex(Id)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
 	var filter_product models.Product
-	err := product_collection.FindOne(ctx, bson.M{"featured": featured}).Decode(&filter_product)
+	err = product_collection.FindOne(ctx, bson.M{"_id": strId}).Decode(&filter_product)
 	if err != nil {
 		if err == mongo.ErrNoDocuments{
 			http.Error(w, "Product is not featured", 404)
