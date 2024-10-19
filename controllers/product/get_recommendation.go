@@ -15,14 +15,14 @@ func GetRecommendation(w http.ResponseWriter, r *http.Request){
 
 pipeline := mongo.Pipeline{
     {
-        {"$sample", bson.D{{"size", 3}}},
+        {Key: "$sample", Value: bson.D{{Key: "size", Value: 3}}},
     },
     {
-        {"$project", bson.D{
-            {"_id", 1},
-            {"name", 1},
-            {"description", 1},
-            {"image", 1},
+        {Key: "$project", Value: bson.D{
+            {Key: "_id", Value: 1},
+            {Key: "name", Value: 1},
+            {Key: "description", Value: 1},
+            {Key: "image", Value: 1},
         }},
     },
 }
