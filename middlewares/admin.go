@@ -2,7 +2,6 @@ package middlewares
 
 import (
 	response "api/utils"
-
 	"net/http"
 )
 
