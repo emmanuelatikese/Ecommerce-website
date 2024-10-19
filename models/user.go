@@ -12,6 +12,6 @@ type User struct {
 }
 
 type Cart struct {
-	ProductId primitive.ObjectID 
+	ProductId primitive.ObjectID
 	Quantity int
 }

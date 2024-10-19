@@ -17,6 +17,7 @@ type Product struct {
 	UpdatedAt time.Time
 }
 
-type ProductId struct{
+type ProductIdQty struct{
 	Id string `json:"product_id"`
+	Quantity int `json:"quantity"`
 }

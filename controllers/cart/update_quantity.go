@@ -4,6 +4,7 @@ import (
 	db_mongo "api/db/mongo"
 	"api/models"
 	response "api/utils"
+	"encoding/json"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -11,12 +12,17 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
-
-func RemoveProductCart(w http.ResponseWriter, r *http.Request){
+func UpdateQuantity(w http.ResponseWriter, r *http.Request){
 	product_id := mux.Vars(r)["product_id"]
 	user, ok:= response.GetUserFromContext(r)
 	if !ok {
 		http.Error(w, "Unauthorized", 500)
+		return
+	}
+	var ProdQty models.ProductIdQty
+	err := json.NewDecoder(r.Body).Decode(&ProdQty)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
 		return
 	}
 	ctx, user_collection := r.Context(), db_mongo.UserCollection
@@ -41,8 +47,7 @@ func RemoveProductCart(w http.ResponseWriter, r *http.Request){
 		return
 	}
 	var filterUser bson.M
-	new_cart := response.SearchAndDeleteInCart(user_cartItem, pri_ProductId)
-
+	new_cart := response.SearchAndChangeQty(user_cartItem, pri_ProductId, ProdQty.Quantity)
 	err = user_collection.FindOneAndUpdate(ctx, bson.M{"_id": pri_userId},
 		bson.M{"$set":bson.M{"cart_item": new_cart}}, 
 		options.FindOneAndUpdate().SetReturnDocument(options.After)).Decode(&filterUser)

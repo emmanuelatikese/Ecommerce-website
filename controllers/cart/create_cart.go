@@ -13,7 +13,7 @@ import (
 
 
 func AddToCart(w http.ResponseWriter, r *http.Request){
-	var productId models.ProductId
+	var productId models.ProductIdQty
 	ctx, user_collection := r.Context(), db_mongo.UserCollection
 	err := json.NewDecoder(r.Body).Decode(&productId)
 	if err != nil {
