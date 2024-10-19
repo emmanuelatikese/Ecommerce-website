@@ -52,7 +52,7 @@ func CreateProduct(w http.ResponseWriter, r *http.Request){
 	}
 	pri_Id, ok := insertId.InsertedID.(primitive.ObjectID)
 	if!ok{
-		http.Error(w, err.Error(), 500)
+		http.Error(w, "Unable to convert Id", 500)
 		return
 	}
 	strId := pri_Id.Hex()
