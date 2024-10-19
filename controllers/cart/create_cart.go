@@ -10,8 +10,10 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
+
+
 func AddToCart(w http.ResponseWriter, r *http.Request){
-	var productId string
+	var productId models.ProductId
 	ctx, user_collection := r.Context(), db_mongo.UserCollection
 	err := json.NewDecoder(r.Body).Decode(&productId)
 	if err != nil {
@@ -33,7 +35,7 @@ func AddToCart(w http.ResponseWriter, r *http.Request){
 		http.Error(w, err.Error(), 500)
 		return
 	}
-	pri_ProductId, err := primitive.ObjectIDFromHex(productId)
+	pri_ProductId, err := primitive.ObjectIDFromHex(productId.Id)
 	if err != nil{
 		http.Error(w, err.Error(), 500)
 		return

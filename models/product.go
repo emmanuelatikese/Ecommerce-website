@@ -16,3 +16,7 @@ type Product struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
+
+type ProductId struct{
+	Id string `json:"product_id"`
+}
