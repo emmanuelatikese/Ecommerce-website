@@ -23,8 +23,16 @@ func AddToCart(w http.ResponseWriter, r *http.Request){
 		http.Error(w, "UnAuthorized", 500)
 		return
 	}
-	userId := user["_id"]
-
+	userId, ok := user["_id"].(string)
+	if !ok{
+		http.Error(w, "Internal Server Error", 500)
+		return
+	}
+	pri_userId, err := primitive.ObjectIDFromHex(userId)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
 	pri_ProductId, err := primitive.ObjectIDFromHex(productId)
 	if err != nil{
 		http.Error(w, err.Error(), 500)
@@ -37,8 +45,8 @@ func AddToCart(w http.ResponseWriter, r *http.Request){
 	}
 	updateCart := response.SearchAndUpdateInCart(userCart, pri_ProductId)
 	var filterUser bson.M
-	err = user_collection.FindOneAndUpdate(ctx, bson.M{"_id": userId},
-		bson.M{"cart_item": updateCart}, 
+	err = user_collection.FindOneAndUpdate(ctx, bson.M{"_id": pri_userId},
+		bson.M{"$set":bson.M{"cart_item": updateCart}}, 
 		options.FindOneAndUpdate().SetReturnDocument(options.After)).Decode(&filterUser)
 	if err != nil{
 			http.Error(w, err.Error(), 500)
