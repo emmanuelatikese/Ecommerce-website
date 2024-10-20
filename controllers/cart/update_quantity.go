@@ -6,7 +6,6 @@ import (
 	response "api/utils"
 	"encoding/json"
 	"net/http"
-
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -49,7 +48,7 @@ func UpdateQuantity(w http.ResponseWriter, r *http.Request){
 	var filterUser bson.M
 	new_cart := response.SearchAndChangeQty(user_cartItem, pri_ProductId, ProdQty.Quantity)
 	err = user_collection.FindOneAndUpdate(ctx, bson.M{"_id": pri_userId},
-		bson.M{"$set":bson.M{"cart_item": new_cart}}, 
+		bson.M{"$set":bson.M{"cart_item": new_cart}},
 		options.FindOneAndUpdate().SetReturnDocument(options.After)).Decode(&filterUser)
 	if err != nil{
 			http.Error(w, err.Error(), 404)
