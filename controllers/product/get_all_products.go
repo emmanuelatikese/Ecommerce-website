@@ -23,7 +23,7 @@ func GetAllProduct(w http.ResponseWriter, r *http.Request){
 		return
 	}
 	if len(all_products) == 0 {
-		http.Error(w, "No product", 404)
+		http.Error(w, "No products available", 404)
 		return
 	}
 	response.JsonResponse(all_products, w, 200)

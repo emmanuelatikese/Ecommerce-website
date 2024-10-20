@@ -12,9 +12,7 @@ import (
 )
 
 func CreateProduct(w http.ResponseWriter, r *http.Request){
-	var (
-		new_product models.Product
-	)
+	var new_product models.Product
 	ctx, product_collection := r.Context(), db_mongo.ProductCollection
 
 	err := json.NewDecoder(r.Body).Decode(&new_product)
@@ -63,9 +61,10 @@ func CreateProduct(w http.ResponseWriter, r *http.Request){
 		"price": new_product.Price,
 		"image": new_product.Image,
 		"description": new_product.Description,
-		"is_featured": new_product.IsFeatured,
-		"created_at": new_product.CreatedAt,
-		"updated_at": new_product.UpdatedAt,
+		"isfeatured": new_product.IsFeatured,
+		"createdat": new_product.CreatedAt,
+		"updatedat": new_product.UpdatedAt,
+		"category": new_product.Category,
 	}
 
 	response.JsonResponse(res, w, 201)

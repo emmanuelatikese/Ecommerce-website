@@ -4,8 +4,10 @@ import (
 	db_mongo "api/db/mongo"
 	redis_db "api/db/redis"
 	"api/models"
+	response "api/utils"
 	"net/http"
 	"time"
+
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -35,7 +37,7 @@ func UpdateFeatured(w http.ResponseWriter, r *http.Request){
 		return
 	}
 	filter_product.IsFeatured = !filter_product.IsFeatured
-	_, err = product_collection.UpdateOne(ctx, filter_product, bson.M{"featured": filter_product.IsFeatured})
+	_, err = product_collection.UpdateOne(ctx, filter_product, bson.M{"$set":bson.M{"isfeatured": filter_product.IsFeatured}})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotAcceptable)
 		return
@@ -51,4 +53,5 @@ func UpdateFeatured(w http.ResponseWriter, r *http.Request){
 		return
 	}
 	redis_db.RedisCli.Set(ctx, "featured_product", all_featured, time.Hour * 24 * 7)
+	response.JsonResponse("Updated successfully", w, 200)
 }

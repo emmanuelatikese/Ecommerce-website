@@ -12,9 +12,9 @@ type Product struct {
 	Description string `json:"description"`
 	Image string `json:"image"`
 	Category string `json:"category"`
-	IsFeatured bool `json:"is_featured"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time	`json:"updated_at"`
+	IsFeatured bool `json:"isfeatured"`
+	CreatedAt time.Time 
+	UpdatedAt time.Time	
 }
 
 type ProductIdQty struct{

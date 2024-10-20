@@ -16,7 +16,7 @@ func ProductRoute(mux *mux.Router){
 	updateFeatured_handler := http.HandlerFunc(product_controllers.UpdateFeatured)
 	getRecommendation_handler := http.HandlerFunc(product_controllers.GetRecommendation)
 	getCategory_handler := http.HandlerFunc(product_controllers.GetCategory)
-	
+	deleteAll_handler := http.HandlerFunc(product_controllers.DeleteAll)
 	//Routes
 	mux.Handle("/product/getAll", protect_middleware(admin_middleware(getAll_handler))).Methods("GET")
 	mux.HandleFunc("/product/getFeatured", product_controllers.GetFeaturedProduct).Methods("GET")
@@ -24,6 +24,7 @@ func ProductRoute(mux *mux.Router){
 	mux.Handle("/product/delete/{id}", protect_middleware(admin_middleware(deleteProduct_handler))).Methods("DELETE")
 	mux.Handle("/product/recommendation", protect_middleware(admin_middleware(getRecommendation_handler))).Methods("GET")
 	mux.Handle("/product/category", protect_middleware(admin_middleware(getCategory_handler))).Methods("GET")
-	mux.Handle("/product/toggleFeatured/{id}", protect_middleware(admin_middleware(updateFeatured_handler))).Methods("POST")
+	mux.Handle("/product/toggleFeatured/{id}", protect_middleware(admin_middleware(updateFeatured_handler))).Methods("PATCH")
+	mux.Handle("/product/deleteAll", protect_middleware(admin_middleware(deleteAll_handler))).Methods("DELETE")
 
 }
