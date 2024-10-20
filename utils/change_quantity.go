@@ -6,13 +6,16 @@ import (
 )
 
 func SearchAndChangeQty(list []models.Cart, productId primitive.ObjectID, quantity int) ([]models.Cart){
-	if productId.Hex() != ""{
-		for i := range list{
+	for i := range list{
 		if list[i].ProductId == productId{
+			if quantity > 0{
 			list[i].Quantity = quantity
 			return list
-		}
+			} else{
+				list = append(list[:i], list[i+1:]...)
+				return list
+			}
 		}
 	}
-	return []models.Cart{}
+	return list
 }
