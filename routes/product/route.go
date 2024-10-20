@@ -24,7 +24,7 @@ func ProductRoute(mux *mux.Router){
 	mux.Handle("/product/delete/{id}", protect_middleware(admin_middleware(deleteProduct_handler))).Methods("DELETE")
 	mux.Handle("/product/recommendation", protect_middleware(admin_middleware(getRecommendation_handler))).Methods("GET")
 	mux.Handle("/product/category", protect_middleware(admin_middleware(getCategory_handler))).Methods("GET")
-	mux.Handle("/product/toggleFeatured/{id}", protect_middleware(admin_middleware(updateFeatured_handler))).Methods("PATCH")
+	mux.Handle("/product/updateFeatured/{id}", protect_middleware(admin_middleware(updateFeatured_handler))).Methods("PATCH")
 	mux.Handle("/product/deleteAll", protect_middleware(admin_middleware(deleteAll_handler))).Methods("DELETE")
 
 }
