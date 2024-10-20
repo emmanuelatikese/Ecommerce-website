@@ -30,20 +30,20 @@ func UpdateFeatured(w http.ResponseWriter, r *http.Request){
 	err = product_collection.FindOne(ctx, bson.M{"_id": strId}).Decode(&filter_product)
 	if err != nil {
 		if err == mongo.ErrNoDocuments{
-			http.Error(w, "Product is not featured", 404)
+			http.Error(w, "Product don't exist", 404)
 			return
 		}
 		http.Error(w, err.Error(), 404)
 		return
 	}
 	filter_product.IsFeatured = !filter_product.IsFeatured
-	_, err = product_collection.UpdateOne(ctx, filter_product, bson.M{"$set":bson.M{"isfeatured": filter_product.IsFeatured}})
+	_, err = product_collection.UpdateOne(ctx, bson.M{"_id": strId}, bson.M{"$set":bson.M{"isfeatured": filter_product.IsFeatured}})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotAcceptable)
 		return
 	}
 	var all_featured []bson.M
-	cur, err := product_collection.Find(ctx, bson.M{"featured": filter_product.IsFeatured})
+	cur, err := product_collection.Find(ctx, bson.M{"isfeatured": true})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotAcceptable)
 		return
