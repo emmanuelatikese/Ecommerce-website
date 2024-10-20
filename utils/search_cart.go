@@ -6,11 +6,13 @@ import (
 )
 
 func SearchAndUpdateInCart(list []models.Cart, productId primitive.ObjectID) ([]models.Cart){
-	for i := range list{
+	if productId.Hex() != ""{
+			for i := range list{
 		if list[i].ProductId == productId{
 			list[i].Quantity++
 			return list
 		}
+	}
 	}
 	list = append(list, models.Cart{ProductId: productId, Quantity: 1})
 	return list
