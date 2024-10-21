@@ -5,7 +5,9 @@ import (
 	"api/models"
 	response "api/utils"
 	"encoding/json"
+	"log"
 	"net/http"
+
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -13,8 +15,8 @@ import (
 )
 func UpdateQuantity(w http.ResponseWriter, r *http.Request){
 	product_id := mux.Vars(r)["product_id"]
+	log.Print(product_id, "here")
 	user:= response.GetUserFromContext(r)
-
 	var ProdQty models.ProductIdQty
 	err := json.NewDecoder(r.Body).Decode(&ProdQty)
 	if err != nil {
