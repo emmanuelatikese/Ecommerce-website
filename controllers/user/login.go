@@ -50,7 +50,7 @@ func Login(w http.ResponseWriter, r *http.Request){
         "_id": filter_user.Id,
         "username": filter_user.Username,
         "email": filter_user.Email,
-        "cart_item": filter_user.CartItem,
+        "cartitem": filter_user.CartItem,
         "role":filter_user.Role,
     }
     response.JsonResponse(res, w, 201)

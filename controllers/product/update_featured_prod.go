@@ -7,7 +7,6 @@ import (
 	response "api/utils"
 	"net/http"
 	"time"
-
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -53,5 +52,5 @@ func UpdateFeatured(w http.ResponseWriter, r *http.Request){
 		return
 	}
 	redis_db.RedisCli.Set(ctx, "featured_product", all_featured, time.Hour * 24 * 7)
-	response.JsonResponse("Updated successfully", w, 200)
+	response.JsonResponse(filter_product, w, 200)
 }

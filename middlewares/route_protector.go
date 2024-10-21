@@ -3,8 +3,10 @@ package middlewares
 import (
 	db_mongo "api/db/mongo"
 	jwt_util "api/jwt"
+	"api/models"
 	"context"
 	"net/http"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -25,7 +27,7 @@ func ProtectRoute(next http.Handler) http.Handler{
 			http.Error(w, "Not authorized", http.StatusUnauthorized)
 			return
 		}
-		var filterUser bson.M
+		var filterUser models.User
 		pri_id, err := primitive.ObjectIDFromHex(userId)
 		if err != nil{
 			http.Error(w, err.Error(), http.StatusInternalServerError)

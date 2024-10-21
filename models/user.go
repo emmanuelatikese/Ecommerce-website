@@ -7,7 +7,7 @@ type User struct {
 	Username string `json:"username"`
 	Password []byte `json:"password"`
 	Email    string `json:"email"`
-	CartItem []Cart `json:"cart_item"` // quantity- 1 as default
+	CartItem []Cart `json:"cartitem"` // quantity- 1 as default
 	Role string 	`json:"role"` //enum either customer or admin but customer is default
 }
 

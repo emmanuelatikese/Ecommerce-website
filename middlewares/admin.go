@@ -8,16 +8,8 @@ import (
 func AdminProtect(next http.Handler) http.Handler{
 	return http.HandlerFunc(func (w http.ResponseWriter, r *http.Request)  {
 
-		user, ok := response.GetUserFromContext(r)
-		if !ok{
-			http.Error(w, "Internal Server error", 500)
-			return
-		}
-		if user == nil{
-			http.Error(w, "Empty", 500)
-			return
-		}
-		if user["role"] != "admin"{
+		user := response.GetUserFromContext(r)
+		if user.Role != "admin"{
 			http.Error(w, "Admin only!", http.StatusUnauthorized)
 			return
 		}
