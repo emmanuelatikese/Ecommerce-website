@@ -13,11 +13,16 @@ type Product struct {
 	Image string `json:"image"`
 	Category string `json:"category"`
 	IsFeatured bool `json:"isfeatured"`
-	CreatedAt time.Time 
-	UpdatedAt time.Time	
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 type ProductIdQty struct{
 	Id string `json:"product_id"`
 	Quantity float64 `json:"quantity"`
+}
+
+type ProductQty struct{
+	Products Product	`json:"product"`
+	Quantity float64	`json:"quantity"`
 }
