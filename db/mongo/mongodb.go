@@ -12,6 +12,7 @@ import (
 var (
 	UserCollection *mongo.Collection
 	ProductCollection *mongo.Collection
+	CouponCollection *mongo.Collection
 )
 
 
@@ -27,5 +28,6 @@ func ConnectDB() error{
 	db := client.Database("E-commence_db")
 	UserCollection = db.Collection("user-collection")
 	ProductCollection = db.Collection("product-collection")
+	CouponCollection = db.Collection("coupon-collection")
 	return nil
 }

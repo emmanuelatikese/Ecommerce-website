@@ -7,6 +7,7 @@ import (
 	response "api/utils"
 	"context"
 	"net/http"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -15,7 +16,10 @@ import (
 func ProtectRoute(next http.Handler) http.Handler{
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		jwt_cookies, err := r.Cookie("access_token")
-		response.ErrorHandler(err, w, 500)
+		if err != nil {
+			http.Error(w, "Not authorized", http.StatusUnauthorized)
+			return
+		}
 		ctx := r.Context()
 		user_collection := db_mongo.UserCollection
 		jwt_token := jwt_cookies.Value
