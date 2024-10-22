@@ -12,31 +12,23 @@ import (
 func GetRecommendation(w http.ResponseWriter, r *http.Request){
 	ctx := r.Context()
 	product_collection := db_mongo.ProductCollection
-
-pipeline := mongo.Pipeline{
-    {
-        {Key: "$sample", Value: bson.D{{Key: "size", Value: 3}}},
-    },
-    {
-        {Key: "$project", Value: bson.D{
-            {Key: "_id", Value: 1},
-            {Key: "name", Value: 1},
-            {Key: "description", Value: 1},
-            {Key: "image", Value: 1},
-        }},
-    },
-}
-
+	pipeline := mongo.Pipeline{
+		{
+			{Key: "$sample", Value: bson.D{{Key: "size", Value: 3}}},
+		},
+		{
+			{Key: "$project", Value: bson.D{
+				{Key: "_id", Value: 1},
+				{Key: "name", Value: 1},
+				{Key: "description", Value: 1},
+				{Key: "image", Value: 1},
+			}},
+		},
+	}
 	cursor, err := product_collection.Aggregate(ctx, pipeline)
-	if err != nil{
-		http.Error(w, err.Error(), 500)
-		return
-	}
+	response.ErrorHandler(err, w, 500)
 	var recommendation []bson.M
-	if err = cursor.All(ctx, &recommendation); err != nil{
-		http.Error(w, err.Error(), 500)
-		return
-	}
-
+	err = cursor.All(ctx, &recommendation);
+	response.ErrorHandler(err, w, 500)
 	response.JsonResponse(recommendation, w, 200)
 }

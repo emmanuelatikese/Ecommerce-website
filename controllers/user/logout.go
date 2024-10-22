@@ -11,10 +11,7 @@ import (
 func Logout(w http.ResponseWriter, r *http.Request){
 	ctx := r.Context()
 	jwt, err := r.Cookie("refresh_token")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusUnauthorized)
-		return
-	}
+	response.ErrorHandler(err, w, http.StatusUnauthorized)
 	val := jwt.Value
 	userId, err := jwt_util.Verify(w,r,val, jwt_util.Refresh_token_public)
 	if err != nil || userId == ""{

@@ -18,32 +18,23 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 	var new_user models.User
 	new_user_map := make(map[string]string)
 	err := json.NewDecoder(r.Body).Decode(&new_user_map)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
+	response.ErrorHandler(err, w, http.StatusBadRequest)
 	userCollection := db_mongo.UserCollection
 	ctx := r.Context()
-
 	if len(new_user_map["password"]) < 6{
 		http.Error(w, "password must be 6 or more characters", http.StatusNotAcceptable)
 		return
 	}
-
 	if new_user_map["username"] == "" || new_user_map["password"] != new_user_map["confirmed_password"] {
 		http.Error(w, "Invalid username or password mismatch", http.StatusNotAcceptable)
 		return
 	}
-
 	var user_exist models.User
-
 	err = userCollection.FindOne(ctx, bson.M{"username": new_user_map["username"]}).Decode(&user_exist)
 	if err != mongo.ErrNoDocuments{
 		http.Error(w, "User already exist", http.StatusNotAcceptable)
 		return
 	}
-
-
 	hashed_password, err := bcrypt.GenerateFromPassword([]byte(new_user_map["password"]), bcrypt.DefaultCost)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -58,28 +49,17 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 		CartItem: []models.Cart{},
 		Role: new_user_map["role"],
 	}
-
 	insert_id, err := userCollection.InsertOne(ctx, new_user)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusNotAcceptable)
-		return
-	}
+	response.ErrorHandler(err, w, 500)
 	priId, ok := insert_id.InsertedID.(primitive.ObjectID)
 	if !ok{
 		http.Error(w, "can't convert id", 500)
 	}
 	strId := priId.Hex()
-
 	access_token, refresh_token, err := jwt_util.GenerateToken(strId)
-	if err != nil{
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
+	response.ErrorHandler(err, w, 500)
 	redis_db.SetRfToken(strId, refresh_token, ctx)
-
 	jwt_util.SetCookie(access_token, refresh_token, w)
-
 	res := map[string]interface{}{
 		"_id": insert_id.InsertedID,
 		"username": new_user.Username,

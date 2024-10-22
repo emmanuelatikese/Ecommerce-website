@@ -14,47 +14,30 @@ import (
 func CreateProduct(w http.ResponseWriter, r *http.Request){
 	var new_product models.Product
 	ctx, product_collection := r.Context(), db_mongo.ProductCollection
-
 	err := json.NewDecoder(r.Body).Decode(&new_product)
-	if err != nil{
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
+	response.ErrorHandler(err, w, http.StatusBadRequest)
 	if new_product.Name == "" || new_product.Price == 0 {
 		http.Error(w, "fill the required name and price", http.StatusNotAcceptable)
 		return
 	}
 	if new_product.Image != ""{
 		cld, err := cloudinary.New()
-		if err != nil{
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
+		response.ErrorHandler(err, w, 500)
 		image, err := cld.Image(new_product.Image)
-		if err != nil {
-			http.Error(w, err.Error(), 500)
-			return
-		}
+		response.ErrorHandler(err, w, 500)
 		imageUrl, err := image.String()
-		if err != nil {
-				http.Error(w, err.Error(), 500)
-				return
-		}
+		response.ErrorHandler(err, w, 500)
 		new_product.Image = imageUrl
 	}
 
 	insertId, err := product_collection.InsertOne(ctx, new_product)
-	if err != nil{
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+	response.ErrorHandler(err, w, 500)
 	pri_Id, ok := insertId.InsertedID.(primitive.ObjectID)
 	if!ok{
 		http.Error(w, "Unable to convert Id", 500)
 		return
 	}
 	strId := pri_Id.Hex()
-
 	res := &bson.M{
 		"_id": strId,
 		"name": new_product.Name,

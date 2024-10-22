@@ -18,11 +18,7 @@ func Login(w http.ResponseWriter, r *http.Request){
     ctx := r.Context()
     user_collection := db_mongo.UserCollection
     err := json.NewDecoder(r.Body).Decode(&user_logins)
-    if err != nil{
-        http.Error(w, err.Error(), http.StatusBadRequest)
-        return
-    }
-
+    response.ErrorHandler(err, w, http.StatusBadRequest)
     var filter_user models.User
     err = user_collection.FindOne(ctx, bson.M{"username": user_logins["username"]}).Decode(&filter_user)
     if err != nil{
@@ -33,17 +29,13 @@ func Login(w http.ResponseWriter, r *http.Request){
         http.Error(w, err.Error(), http.StatusNotAcceptable)
         return
     }
-
     err = bcrypt.CompareHashAndPassword(filter_user.Password, []byte(user_logins["password"]))
     if err != nil {
         http.Error(w, "password invalid", http.StatusNotAcceptable)
         return
     }
     access_token, refresh_token, err := jwt_util.GenerateToken(filter_user.Id.Hex())
-	if err != nil{
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+	response.ErrorHandler(err, w, 500)
 	redis_db.SetRfToken(filter_user.Id.Hex(), refresh_token, ctx)
 	jwt_util.SetCookie(access_token, refresh_token, w)
     res := &map[string]interface{}{

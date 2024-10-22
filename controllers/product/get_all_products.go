@@ -11,17 +11,11 @@ func GetAllProduct(w http.ResponseWriter, r *http.Request){
 	ctx := r.Context()
 	product_collection := db_mongo.ProductCollection
 	result_cursor, err := product_collection.Find(ctx, bson.D{{}})
-	if err != nil {
-		http.Error(w, "Internal server Error", 500)
-		return
-	}
+	response.ErrorHandler(err, w, 500)
 	defer result_cursor.Close(ctx)
 	var all_products []bson.M
 	err = result_cursor.All(ctx, &all_products)
-	if err != nil {
-		http.Error(w,  err.Error(), 500)
-		return
-	}
+	response.ErrorHandler(err, w, 500)
 	if len(all_products) == 0 {
 		http.Error(w, "No products available", 404)
 		return
