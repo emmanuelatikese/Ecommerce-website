@@ -7,4 +7,3 @@ refresh_token.rsa
 refresh_token.rsa.pub
 start_mongo.sh
 .vscode
-.gitignore
