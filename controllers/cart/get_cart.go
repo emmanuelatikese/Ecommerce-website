@@ -13,15 +13,10 @@ func GetCart(w http.ResponseWriter, r *http.Request){
 	ctx, product_collection := r.Context(), db_mongo.ProductCollection
 	prodList := response.GetProdId(user.CartItem)
 	cursor, err := product_collection.Find(ctx, bson.M{"_id": bson.M{"$in": prodList}})
-	if err != nil{
-		http.Error(w, err.Error(), 500)
-		return
-	}
+	response.ErrorHandler(err, w,500)
 	var FilterProducts  []models.Product
-	if err := cursor.All(ctx, &FilterProducts); err != nil {
-		http.Error(w, err.Error(), 500)
-		return
-	}
+	err = cursor.All(ctx, &FilterProducts)
+	response.ErrorHandler(err, w, 500)
 	user_products := response.GetPrdQty(FilterProducts, user.CartItem)
 	response.JsonResponse(user_products, w, 200)
 }
