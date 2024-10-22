@@ -27,7 +27,6 @@ func init() {
 		log.Fatal(err)
 		return
 	}
-
 	refresh_token_private, Refresh_token_public, err = SetToken(refresh_pri_dir, refresh_pub_dir)
 	if err != nil{
 		log.Fatal(err)
