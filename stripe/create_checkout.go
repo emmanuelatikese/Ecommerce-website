@@ -34,6 +34,7 @@ func CheckoutSession(w http.ResponseWriter, r *http.Request){
 	user := response.GetUserFromContext(r)
 	var coupon string
 
+	var stripeCoupon stripe.CheckoutSessionDiscountParams
 	lineItems, totalAmount := LineItemsAndTotalAmt(req.Products)
 
 	if req.Coupon != ""{
@@ -52,8 +53,14 @@ func CheckoutSession(w http.ResponseWriter, r *http.Request){
 		coupon = filterCoupon.Code
 		if coupon != ""{
 			totalAmount *= filterCoupon.Discount/100
+			newCoupon := CheckCouponForDiscount(filterCoupon, w)
+			stripeCoupon = stripe.CheckoutSessionDiscountParams{Coupon: stripe.String(newCoupon)}
 		}
 	}
+	if coupon == ""{
+		stripeCoupon = stripe.CheckoutSessionDiscountParams{}
+	}
+
 	successUrl := clientUrl + "/success/{checkoutSessionUrl}"
 	cancelUrl := clientUrl + "/cancel"
 
@@ -65,6 +72,9 @@ func CheckoutSession(w http.ResponseWriter, r *http.Request){
 		LineItems: lineItems,
 		SuccessURL: stripe.String(successUrl),
         CancelURL:  stripe.String(cancelUrl),
+		Discounts: []*stripe.CheckoutSessionDiscountParams{
+			&stripeCoupon,
+		},
 	}
 
 	sessionUrl, err := session.New(params)
