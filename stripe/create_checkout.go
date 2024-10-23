@@ -57,7 +57,7 @@ func CheckoutSession(w http.ResponseWriter, r *http.Request){
 			totalAmount *= filterCoupon.Discount/100
 		}
 	}
-	successUrl := clientUrl + "/success"
+	successUrl := clientUrl + "/success/{checkoutSessionUrl}"
 	cancelUrl := clientUrl + "/cancel"
 
 	params := &stripe.CheckoutSessionParams{
