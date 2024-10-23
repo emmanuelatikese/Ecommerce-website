@@ -2,7 +2,6 @@ package models
 
 import (
 	"time"
-
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -15,4 +14,9 @@ type Coupons struct {
 	UserId 		primitive.ObjectID 	`json:"userid"`
 	CreatedAt	time.Time
 	UpdatedAt 	time.Time
+}
+
+type ProdCoupon struct{
+	Products []ProductQty `json:"products"`
+	Coupon  string		`json:"coupon"`
 }

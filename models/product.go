@@ -19,10 +19,10 @@ type Product struct {
 
 type ProductIdQty struct{
 	Id string 			`json:"product_id"`
-	Quantity float64 	`json:"quantity"`
+	Quantity int64 	`json:"quantity"`
 }
 
 type ProductQty struct{
 	Products Product	`json:"product"`
-	Quantity float64	`json:"quantity"`
+	Quantity int64	`json:"quantity"`
 }

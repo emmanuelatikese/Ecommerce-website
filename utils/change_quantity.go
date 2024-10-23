@@ -5,7 +5,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func SearchAndChangeQty(list []models.Cart, productId primitive.ObjectID, quantity float64) ([]models.Cart){
+func SearchAndChangeQty(list []models.Cart, productId primitive.ObjectID, quantity int64) ([]models.Cart){
 	for i := range list{
 		if list[i].ProductId == productId{
 			if quantity > 0{

@@ -7,6 +7,7 @@ require (
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/gorilla/mux v1.8.1
+	github.com/stripe/stripe-go/v80 v80.2.0
 	github.com/subosito/gotenv v1.6.0
 	go.mongodb.org/mongo-driver v1.17.1
 	golang.org/x/crypto v0.26.0

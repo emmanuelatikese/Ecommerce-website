@@ -13,5 +13,5 @@ type User struct {
 
 type Cart struct {
 	ProductId primitive.ObjectID	`json:"product_id"`
-	Quantity float64				`json:"quantity"`
+	Quantity int64				`json:"quantity"`
 }
