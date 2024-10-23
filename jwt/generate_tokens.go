@@ -36,48 +36,48 @@ func init() {
 }
 
 func GenerateToken(id interface{}) (string, string, error) {
-	access_claims := &jwt.MapClaims{
+	accessClaims := &jwt.MapClaims{
 		"exp": time.Now().Add(time.Minute * 60 * 15).Unix(),
 		"iat": time.Now().Unix(),
 		"sub": id,
 	}
 
-	acc_token := jwt.NewWithClaims(jwt.SigningMethodRS256, access_claims)
-	access_token_str, err := acc_token.SignedString(accessTokenPrivate)
+	accToken := jwt.NewWithClaims(jwt.SigningMethodRS256, accessClaims)
+	accessTokenStr, err := accToken.SignedString(accessTokenPrivate)
 	if err != nil {
 		log.Fatal(err)
 		return "", "", err
 	}
 
-	refresh_claim := &jwt.MapClaims{
+	refreshClaim := &jwt.MapClaims{
 		"exp": time.Now().Add(time.Hour * 24 * 7).Unix(),
 		"iat": time.Now().Unix(),
 		"sub": id,
 	}
 
-	ref_token := jwt.NewWithClaims(jwt.SigningMethodRS256, refresh_claim)
-	refresh_token_str, err := ref_token.SignedString(refreshTokenPrivate)
+	refToken := jwt.NewWithClaims(jwt.SigningMethodRS256, refreshClaim)
+	refreshTokenStr, err := refToken.SignedString(refreshTokenPrivate)
 	if err != nil {
 		log.Fatal(err)
 		return "", "", err
 	}
 
-	return access_token_str, refresh_token_str, nil
+	return accessTokenStr, refreshTokenStr, nil
 }
 
 func GenerateAccessToken(id interface{}) (string, error) {
-	access_claims := &jwt.MapClaims{
+	accessClaims := &jwt.MapClaims{
 		"exp": time.Now().Add(time.Minute * 60 * 15).Unix(),
 		"iat": time.Now().Unix(),
 		"sub": id,
 	}
 
-	acc_token := jwt.NewWithClaims(jwt.SigningMethodRS256, access_claims)
-	access_token_str, err := acc_token.SignedString(accessTokenPrivate)
+	accToken := jwt.NewWithClaims(jwt.SigningMethodRS256, accessClaims)
+	accessTokenStr, err := accToken.SignedString(accessTokenPrivate)
 	if err != nil {
 		log.Fatal(err)
 		return "",  err
 	}
 
-	return access_token_str, nil
+	return accessTokenStr, nil
 }

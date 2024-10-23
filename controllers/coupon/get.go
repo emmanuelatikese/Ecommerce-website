@@ -1,4 +1,4 @@
-package controllers
+package coupon_controllers
 
 import (
 	db_mongo "api/db/mongo"
