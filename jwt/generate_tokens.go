@@ -10,24 +10,24 @@ import (
 )
 
 var (
-	access_token_private *rsa.PrivateKey
-	refresh_token_private *rsa.PrivateKey
+	accessTokenPrivate *rsa.PrivateKey
+	refreshTokenPrivate *rsa.PrivateKey
 
-	Access_token_public *rsa.PublicKey
-	Refresh_token_public *rsa.PublicKey
+	AccessTokenPublic *rsa.PublicKey
+	RefreshTokenPublic *rsa.PublicKey
 )
 
 func init() {
 	gotenv.Load()
-	access_pri_dir, access_pub_dir := os.Getenv("ACCESS_PRIVATE_TOKEN_DIR"), os.Getenv("ACCESS_PUBLIC_TOKEN_DIR")
-	refresh_pri_dir, refresh_pub_dir := os.Getenv("REFRESH_PRIVATE_TOKEN_DIR"), os.Getenv("REFRESH_PUBLIC_TOKEN_DIR")
+	accessPriDir, accessPubDir := os.Getenv("ACCESS_PRIVATE_TOKEN_DIR"), os.Getenv("ACCESS_PUBLIC_TOKEN_DIR")
+	refreshPriDir, refreshPubDir := os.Getenv("REFRESH_PRIVATE_TOKEN_DIR"), os.Getenv("REFRESH_PUBLIC_TOKEN_DIR")
 	var err error
-	access_token_private, Access_token_public, err = SetToken(access_pri_dir, access_pub_dir)
+	accessTokenPrivate, AccessTokenPublic, err = SetToken(accessPriDir, accessPubDir)
 	if err != nil{
 		log.Fatal(err)
 		return
 	}
-	refresh_token_private, Refresh_token_public, err = SetToken(refresh_pri_dir, refresh_pub_dir)
+	refreshTokenPrivate, RefreshTokenPublic, err = SetToken(refreshPriDir, refreshPubDir)
 	if err != nil{
 		log.Fatal(err)
 		return
@@ -43,7 +43,7 @@ func GenerateToken(id interface{}) (string, string, error) {
 	}
 
 	acc_token := jwt.NewWithClaims(jwt.SigningMethodRS256, access_claims)
-	access_token_str, err := acc_token.SignedString(access_token_private)
+	access_token_str, err := acc_token.SignedString(accessTokenPrivate)
 	if err != nil {
 		log.Fatal(err)
 		return "", "", err
@@ -56,7 +56,7 @@ func GenerateToken(id interface{}) (string, string, error) {
 	}
 
 	ref_token := jwt.NewWithClaims(jwt.SigningMethodRS256, refresh_claim)
-	refresh_token_str, err := ref_token.SignedString(refresh_token_private)
+	refresh_token_str, err := ref_token.SignedString(refreshTokenPrivate)
 	if err != nil {
 		log.Fatal(err)
 		return "", "", err
@@ -73,7 +73,7 @@ func GenerateAccessToken(id interface{}) (string, error) {
 	}
 
 	acc_token := jwt.NewWithClaims(jwt.SigningMethodRS256, access_claims)
-	access_token_str, err := acc_token.SignedString(access_token_private)
+	access_token_str, err := acc_token.SignedString(accessTokenPrivate)
 	if err != nil {
 		log.Fatal(err)
 		return "",  err

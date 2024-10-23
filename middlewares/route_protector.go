@@ -23,7 +23,7 @@ func ProtectRoute(next http.Handler) http.Handler{
 		ctx := r.Context()
 		userCollection := db_mongo.UserCollection
 		jwtToken := jwtCookies.Value
-		userId, err := jwt_util.Verify(w, r, jwtToken, jwt_util.Access_token_public)
+		userId, err := jwt_util.Verify(w, r, jwtToken, jwt_util.AccessTokenPublic)
 		if err != nil || userId == ""{
 			http.Error(w, "Not authorized", http.StatusUnauthorized)
 			return

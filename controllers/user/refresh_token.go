@@ -13,7 +13,7 @@ func RefreshAccess(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	jwtToken := jwtCookies.Value
 
-	userId, err := jwt_util.Verify(w, r, jwtToken, jwt_util.Refresh_token_public)
+	userId, err := jwt_util.Verify(w, r, jwtToken, jwt_util.RefreshTokenPublic)
 	response.ErrorHandler(err, w, 500)
 	refresh_redis_token, err:= redis_db.RedisCli.Get(ctx, userId).Result()
 	response.ErrorHandler(err, w, 500)

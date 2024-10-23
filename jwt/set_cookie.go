@@ -5,36 +5,36 @@ import (
 	"time"
 )
 
-func SetCookie(access_token string, refresh_token string, w http.ResponseWriter) {
-	access_cookies := &http.Cookie{
+func SetCookie(accessToken string, refreshToken string, w http.ResponseWriter) {
+	accessCookies := &http.Cookie{
 		Name:     "access_token",
-		Value:    access_token,
+		Value:    accessToken,
 		Expires:  time.Now().Add(time.Minute * 60 * 15),
 		Path:     "/",
 		HttpOnly: true,
 		Secure:   false,
 	}
 
-	refresh_cookies := &http.Cookie{
+	refreshCookies := &http.Cookie{
 		Name:     "refresh_token",
-		Value:    refresh_token,
+		Value:    refreshToken,
 		Expires:  time.Now().Add(time.Hour * 24 * 7),
 		Path:     "/",
 		HttpOnly: true,
 		Secure:   false,
 	}
-	http.SetCookie(w, access_cookies)
-	http.SetCookie(w, refresh_cookies)
+	http.SetCookie(w, accessCookies)
+	http.SetCookie(w, refreshCookies)
 }
 
-func SetAccessCookie(access_token string, w http.ResponseWriter){
-	access_cookies := &http.Cookie{
+func SetAccessCookie(accessToken string, w http.ResponseWriter){
+	accessCookies := &http.Cookie{
 		Name:     "access_token",
-		Value:    access_token,
+		Value:    accessToken,
 		Expires:  time.Now().Add(time.Minute * 60 * 15),
 		Path:     "/",
 		HttpOnly: true,
 		Secure:   false,
 	}
-	http.SetCookie(w, access_cookies)
+	http.SetCookie(w, accessCookies)
 }
