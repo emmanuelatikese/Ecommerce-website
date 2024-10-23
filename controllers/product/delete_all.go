@@ -10,8 +10,8 @@ import (
 )
 
 func DeleteAll(w http.ResponseWriter, r *http.Request) {
-	ctx, product_collection := r.Context(), db_mongo.ProductCollection
-	alltask ,err := product_collection.DeleteMany(ctx,  bson.D{{}})
+	ctx, productCollection := r.Context(), db_mongo.ProductCollection
+	alltask ,err := productCollection.DeleteMany(ctx,  bson.D{{}})
 	response.ErrorHandler(err, w, 500)
 	if alltask.DeletedCount == 0 {
 		response.JsonResponse("No tasks available", w, 404)

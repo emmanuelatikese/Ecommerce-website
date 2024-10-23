@@ -12,25 +12,25 @@ import (
 )
 
 func CreateProduct(w http.ResponseWriter, r *http.Request){
-	var new_product models.Product
-	ctx, product_collection := r.Context(), db_mongo.ProductCollection
-	err := json.NewDecoder(r.Body).Decode(&new_product)
+	var newProduct models.Product
+	ctx, productCollection := r.Context(), db_mongo.ProductCollection
+	err := json.NewDecoder(r.Body).Decode(&newProduct)
 	response.ErrorHandler(err, w, http.StatusBadRequest)
-	if new_product.Name == "" || new_product.Price == 0 {
+	if newProduct.Name == "" || newProduct.Price == 0 {
 		http.Error(w, "fill the required name and price", http.StatusNotAcceptable)
 		return
 	}
-	if new_product.Image != ""{
+	if newProduct.Image != ""{
 		cld, err := cloudinary.New()
 		response.ErrorHandler(err, w, 500)
-		image, err := cld.Image(new_product.Image)
+		image, err := cld.Image(newProduct.Image)
 		response.ErrorHandler(err, w, 500)
 		imageUrl, err := image.String()
 		response.ErrorHandler(err, w, 500)
-		new_product.Image = imageUrl
+		newProduct.Image = imageUrl
 	}
 
-	insertId, err := product_collection.InsertOne(ctx, new_product)
+	insertId, err := productCollection.InsertOne(ctx, newProduct)
 	response.ErrorHandler(err, w, 500)
 	pri_Id, ok := insertId.InsertedID.(primitive.ObjectID)
 	if!ok{
@@ -40,14 +40,14 @@ func CreateProduct(w http.ResponseWriter, r *http.Request){
 	strId := pri_Id.Hex()
 	res := &bson.M{
 		"_id": strId,
-		"name": new_product.Name,
-		"price": new_product.Price,
-		"image": new_product.Image,
-		"description": new_product.Description,
-		"isfeatured": new_product.IsFeatured,
-		"createdat": new_product.CreatedAt,
-		"updatedat": new_product.UpdatedAt,
-		"category": new_product.Category,
+		"name": newProduct.Name,
+		"price": newProduct.Price,
+		"image": newProduct.Image,
+		"description": newProduct.Description,
+		"isfeatured": newProduct.IsFeatured,
+		"createdat": newProduct.CreatedAt,
+		"updatedat": newProduct.UpdatedAt,
+		"category": newProduct.Category,
 	}
 
 	response.JsonResponse(res, w, 201)

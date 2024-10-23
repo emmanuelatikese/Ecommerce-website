@@ -15,41 +15,41 @@ import (
 )
 
 func SignUp(w http.ResponseWriter, r *http.Request) {
-	var new_user models.User
-	new_user_map := make(map[string]string)
-	err := json.NewDecoder(r.Body).Decode(&new_user_map)
+	var newUser models.User
+	newUserMmap := make(map[string]string)
+	err := json.NewDecoder(r.Body).Decode(&newUserMmap)
 	response.ErrorHandler(err, w, http.StatusBadRequest)
 	userCollection := db_mongo.UserCollection
 	ctx := r.Context()
-	if len(new_user_map["password"]) < 6{
+	if len(newUserMmap["password"]) < 6{
 		http.Error(w, "password must be 6 or more characters", http.StatusNotAcceptable)
 		return
 	}
-	if new_user_map["username"] == "" || new_user_map["password"] != new_user_map["confirmed_password"] {
+	if newUserMmap["username"] == "" || newUserMmap["password"] != newUserMmap["confirmed_password"] {
 		http.Error(w, "Invalid username or password mismatch", http.StatusNotAcceptable)
 		return
 	}
 	var user_exist models.User
-	err = userCollection.FindOne(ctx, bson.M{"username": new_user_map["username"]}).Decode(&user_exist)
+	err = userCollection.FindOne(ctx, bson.M{"username": newUserMmap["username"]}).Decode(&user_exist)
 	if err != mongo.ErrNoDocuments{
 		http.Error(w, "User already exist", http.StatusNotAcceptable)
 		return
 	}
-	hashed_password, err := bcrypt.GenerateFromPassword([]byte(new_user_map["password"]), bcrypt.DefaultCost)
+	hashed_password, err := bcrypt.GenerateFromPassword([]byte(newUserMmap["password"]), bcrypt.DefaultCost)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
-	if new_user_map["role"] == ""{
-		new_user_map["role"] = "customer"
+	if newUserMmap["role"] == ""{
+		newUserMmap["role"] = "customer"
 	}
-	new_user = models.User{
-		Username: new_user_map["username"],
-		Email: new_user_map["email"],
+	newUser = models.User{
+		Username: newUserMmap["username"],
+		Email: newUserMmap["email"],
 		Password: hashed_password,
 		CartItem: []models.Cart{},
-		Role: new_user_map["role"],
+		Role: newUserMmap["role"],
 	}
-	insert_id, err := userCollection.InsertOne(ctx, new_user)
+	insert_id, err := userCollection.InsertOne(ctx, newUser)
 	response.ErrorHandler(err, w, 500)
 	priId, ok := insert_id.InsertedID.(primitive.ObjectID)
 	if !ok{
@@ -62,10 +62,10 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 	jwt_util.SetCookie(access_token, refresh_token, w)
 	res := map[string]interface{}{
 		"_id": insert_id.InsertedID,
-		"username": new_user.Username,
-		"email": new_user.Email,
+		"username": newUser.Username,
+		"email": newUser.Email,
 		"cartitem": []models.Cart{},
-		"role": new_user.Role,
+		"role": newUser.Role,
 	}
 	response.JsonResponse(res, w, 201)
 }

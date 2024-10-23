@@ -14,9 +14,9 @@ func GetCategory(w http.ResponseWriter, r *http.Request){
 		http.Error(w, "No category was passed", 404)
 		return
 	}
-	ctx, product_collection := r.Context(), db_mongo.ProductCollection
+	ctx, productCollection := r.Context(), db_mongo.ProductCollection
 	var allCategory []bson.M
-	cur, err := product_collection.Find(ctx, bson.M{"category": category})
+	cur, err := productCollection.Find(ctx, bson.M{"category": category})
 	response.ErrorHandler(err, w, 500)
 	err = cur.All(ctx, &allCategory);
 	response.ErrorHandler(err, w, 500)

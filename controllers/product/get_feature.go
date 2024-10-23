@@ -12,8 +12,8 @@ import (
 func GetFeaturedProduct(w http.ResponseWriter, r *http.Request){
 	var isFeatured []bson.M
 	ctx := r.Context()
-	product_collection := db_mongo.ProductCollection
-	cursor, err := product_collection.Find(ctx, bson.M{"isfeatured": true})
+	productCollection := db_mongo.ProductCollection
+	cursor, err := productCollection.Find(ctx, bson.M{"isfeatured": true})
 	response.ErrorHandler(err, w, 500)
 	defer cursor.Close(ctx)
 	err = cursor.All(ctx, &isFeatured);

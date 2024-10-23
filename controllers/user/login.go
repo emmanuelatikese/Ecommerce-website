@@ -14,13 +14,13 @@ import (
 )
 
 func Login(w http.ResponseWriter, r *http.Request){
-    user_logins := make(map[string]string)
+    userLogins := make(map[string]string)
     ctx := r.Context()
-    user_collection := db_mongo.UserCollection
-    err := json.NewDecoder(r.Body).Decode(&user_logins)
+    userCollection := db_mongo.UserCollection
+    err := json.NewDecoder(r.Body).Decode(&userLogins)
     response.ErrorHandler(err, w, http.StatusBadRequest)
-    var filter_user models.User
-    err = user_collection.FindOne(ctx, bson.M{"username": user_logins["username"]}).Decode(&filter_user)
+    var filterUser models.User
+    err = userCollection.FindOne(ctx, bson.M{"username": userLogins["username"]}).Decode(&filterUser)
     if err != nil{
         if err == mongo.ErrNoDocuments{
             http.Error(w, "Account don't exist", http.StatusNotAcceptable)
@@ -29,21 +29,21 @@ func Login(w http.ResponseWriter, r *http.Request){
         http.Error(w, err.Error(), http.StatusNotAcceptable)
         return
     }
-    err = bcrypt.CompareHashAndPassword(filter_user.Password, []byte(user_logins["password"]))
+    err = bcrypt.CompareHashAndPassword(filterUser.Password, []byte(userLogins["password"]))
     if err != nil {
         http.Error(w, "password invalid", http.StatusNotAcceptable)
         return
     }
-    access_token, refresh_token, err := jwt_util.GenerateToken(filter_user.Id.Hex())
+    accessToken, refreshToken, err := jwt_util.GenerateToken(filterUser.Id.Hex())
 	response.ErrorHandler(err, w, 500)
-	redis_db.SetRfToken(filter_user.Id.Hex(), refresh_token, ctx)
-	jwt_util.SetCookie(access_token, refresh_token, w)
+	redis_db.SetRfToken(filterUser.Id.Hex(), refreshToken, ctx)
+	jwt_util.SetCookie(accessToken, refreshToken, w)
     res := &map[string]interface{}{
-        "_id": filter_user.Id,
-        "username": filter_user.Username,
-        "email": filter_user.Email,
-        "cartitem": filter_user.CartItem,
-        "role":filter_user.Role,
+        "_id": filterUser.Id,
+        "username": filterUser.Username,
+        "email": filterUser.Email,
+        "cartitem": filterUser.CartItem,
+        "role":filterUser.Role,
     }
     response.JsonResponse(res, w, 201)
 }

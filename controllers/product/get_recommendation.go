@@ -11,7 +11,7 @@ import (
 
 func GetRecommendation(w http.ResponseWriter, r *http.Request){
 	ctx := r.Context()
-	product_collection := db_mongo.ProductCollection
+	productCollection := db_mongo.ProductCollection
 	pipeline := mongo.Pipeline{
 		{
 			{Key: "$sample", Value: bson.D{{Key: "size", Value: 3}}},
@@ -25,7 +25,7 @@ func GetRecommendation(w http.ResponseWriter, r *http.Request){
 			}},
 		},
 	}
-	cursor, err := product_collection.Aggregate(ctx, pipeline)
+	cursor, err := productCollection.Aggregate(ctx, pipeline)
 	response.ErrorHandler(err, w, 500)
 	var recommendation []bson.M
 	err = cursor.All(ctx, &recommendation);

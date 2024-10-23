@@ -19,7 +19,7 @@ func Logout(w http.ResponseWriter, r *http.Request){
 		return
 	}
 	redis_db.RedisCli.Del(ctx, userId)
-	access_cookies := &http.Cookie{
+	accessCookies := &http.Cookie{
 		Name: "access_token",
 		Value: "",
 		Path:     "/",
@@ -28,7 +28,7 @@ func Logout(w http.ResponseWriter, r *http.Request){
         Secure:   true,
         MaxAge:   -1,
 	}
-	refresh_cookies := &http.Cookie{
+	refreshCookies := &http.Cookie{
 		Name: "refresh_token",
 		Value: "",
 		Path:     "/",
@@ -38,7 +38,7 @@ func Logout(w http.ResponseWriter, r *http.Request){
         MaxAge:   -1,
 	}
 
-	http.SetCookie(w, access_cookies)
-	http.SetCookie(w, refresh_cookies)
+	http.SetCookie(w, accessCookies)
+	http.SetCookie(w, refreshCookies)
 	response.JsonResponse("Logout successfully..", w, 200)
 }

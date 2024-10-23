@@ -19,11 +19,11 @@ func DeleteProduct(w http.ResponseWriter, r *http.Request) {
 		http.Error(w ,"Id not found", 404)
 		return
 	}
-	ctx, product_collection := r.Context(), db_mongo.ProductCollection
-	prim_id, err := primitive.ObjectIDFromHex(id)
+	ctx, productCollection := r.Context(), db_mongo.ProductCollection
+	primId, err := primitive.ObjectIDFromHex(id)
 	response.ErrorHandler(err, w, 500)
-	var filter_product models.Product
-	err = product_collection.FindOne(ctx, bson.M{"_id": prim_id}).Decode(&filter_product)
+	var filterProduct models.Product
+	err = productCollection.FindOne(ctx, bson.M{"_id": primId}).Decode(&filterProduct)
 	if err != nil{
 		if err == mongo.ErrNoDocuments{
 			http.Error(w, "No product found to delete", 404)
@@ -32,14 +32,14 @@ func DeleteProduct(w http.ResponseWriter, r *http.Request) {
 		http.Error(w,err.Error(), 500)
 		return
 	}
-	if filter_product.Image != ""{
+	if filterProduct.Image != ""{
 		cld, err := cloudinary.New()
 		response.ErrorHandler(err, w, 500)
-		public_id := response.ExtractPublicID(filter_product.Image)
+		public_id := response.ExtractPublicID(filterProduct.Image)
 		_, err = cld.Upload.Destroy(ctx, uploader.DestroyParams{PublicID: public_id})
 		response.ErrorHandler(err, w, 500)
 	}
-	del_result, err := product_collection.DeleteOne(ctx, bson.M{"_id": prim_id})
+	del_result, err := productCollection.DeleteOne(ctx, bson.M{"_id": primId})
 	response.ErrorHandler(err, w, 500)
 	if del_result.DeletedCount == 0 {
 		http.Error(w, "No result found ", 404)
