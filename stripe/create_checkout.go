@@ -7,14 +7,11 @@ import (
 	"encoding/json"
 	"net/http"
 	"os"
-
 	"github.com/stripe/stripe-go/v80"
 	"github.com/stripe/stripe-go/v80/checkout/session"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-
-	// "github.com/stripe/stripe-go/v80/checkout/session"
 	"github.com/subosito/gotenv"
 )
 
