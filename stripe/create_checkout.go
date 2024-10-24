@@ -81,7 +81,7 @@ func CheckoutSession(w http.ResponseWriter, r *http.Request){
 	response.ErrorHandler(err, w, 500)
 	response.JsonResponse(map[string]interface{}{
 		"sessionUrl": sessionUrl,
-		"totalAmount": totalAmount,
+		"totalAmount": totalAmount / 100,
 	}, w, 201)
 
 }
