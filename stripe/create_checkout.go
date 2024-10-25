@@ -51,11 +51,10 @@ func CheckoutSession(w http.ResponseWriter, r *http.Request){
 			return
 		}
 		coupon = filterCoupon.Code
-		if coupon != ""{
+
 			totalAmount *= (100 - filterCoupon.Discount)/100
 			newCoupon := CheckCouponForDiscount(filterCoupon, w)
 			stripeCoupon = stripe.CheckoutSessionDiscountParams{Coupon: stripe.String(newCoupon)}
-		}
 	}
 	if coupon == ""{
 		stripeCoupon = stripe.CheckoutSessionDiscountParams{}
@@ -81,10 +80,13 @@ func CheckoutSession(w http.ResponseWriter, r *http.Request){
 		},
 	}
 
-	sessionUrl, err := session.New(params)
+	newSession, err := session.New(params)
 	response.ErrorHandler(err, w, 500)
+	if totalAmount >= 20000{
+		CreateCoupon(user.Id, ctx, couponCollection,w)
+	}
 	response.JsonResponse(map[string]interface{}{
-		"sessionUrl": sessionUrl,
+		"sessionId": newSession.ID,
 		"totalAmount": totalAmount / 100,
 	}, w, 201)
 

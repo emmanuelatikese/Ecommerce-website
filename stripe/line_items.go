@@ -23,6 +23,7 @@ func LineItemsAndTotalAmt(prod []models.ProductQty) ([]*stripe.CheckoutSessionLi
                     },
                     UnitAmount: stripe.Int64(int64(amount)),
                 },
+		Quantity: stripe.Int64(prod[i].Quantity),
       }
 	  allList = append(allList, item)
 	}
