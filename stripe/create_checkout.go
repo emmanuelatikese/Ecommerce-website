@@ -74,7 +74,7 @@ func CheckoutSession(w http.ResponseWriter, r *http.Request){
 			&stripeCoupon,
 		},
 		Metadata: map[string]string{
-			"userid": *stripe.String(user.Id.Hex()),
+			"userId": *stripe.String(user.Id.Hex()),
 			"couponCode":*stripe.String(req.Coupon),
 		},
 	}
