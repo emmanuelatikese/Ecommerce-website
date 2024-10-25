@@ -5,6 +5,7 @@ import (
 	redis_db "api/db/redis"
 	carts_route "api/routes/cart"
 	product_route "api/routes/product"
+	stripe_route "api/routes/stripe"
 	user_route "api/routes/user"
 	"log"
 	"net/http"
@@ -29,6 +30,7 @@ func main() {
 	user_route.UserRoutes(mux)
 	product_route.ProductRoute(mux)
 	carts_route.CartRoute(mux)
+	stripe_route.StripeRoute(mux)
 	log.Println("listening on Port: 8080..., localhost:http://localhost:8080")
 	http.ListenAndServe(":8080", mux)
 }

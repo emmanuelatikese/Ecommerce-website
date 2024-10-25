@@ -17,6 +17,6 @@ type Coupons struct {
 }
 
 type ProdCoupon struct{
-	Products []ProductQty `json:"products"`
-	Coupon  string		`json:"coupon"`
+	Products	[]ProductQty	`json:"products"`
+	Coupon 		string			`json:"coupon"`
 }

@@ -16,7 +16,6 @@ import (
 )
 
 func CheckoutSession(w http.ResponseWriter, r *http.Request){
-
 	gotenv.Load()
 	stripe.Key = os.Getenv("STRIPE_PUBLISHABLE_KEY")
 	clientUrl := os.Getenv("CLIENT_URL")
