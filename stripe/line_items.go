@@ -11,8 +11,8 @@ func LineItemsAndTotalAmt(prod []models.ProductQty) ([]*stripe.CheckoutSessionLi
 	var allList  []*stripe.CheckoutSessionLineItemParams
 
 	for i := range prod {
-		amount := prod[i].Products.Price
-		totalAmount = amount * 100 // changing to cents
+		amount := prod[i].Products.Price* 100  // changing to cents
+		totalAmount = amount * float64(prod[i].Quantity)
 		item := &stripe.CheckoutSessionLineItemParams{
          PriceData: &stripe.CheckoutSessionLineItemPriceDataParams{
                     Currency: stripe.String("usd"),

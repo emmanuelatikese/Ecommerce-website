@@ -52,7 +52,7 @@ func CheckoutSession(w http.ResponseWriter, r *http.Request){
 		}
 		coupon = filterCoupon.Code
 		if coupon != ""{
-			totalAmount *= filterCoupon.Discount/100
+			totalAmount *= (100 - filterCoupon.Discount)/100
 			newCoupon := CheckCouponForDiscount(filterCoupon, w)
 			stripeCoupon = stripe.CheckoutSessionDiscountParams{Coupon: stripe.String(newCoupon)}
 		}
@@ -74,6 +74,10 @@ func CheckoutSession(w http.ResponseWriter, r *http.Request){
         CancelURL:  stripe.String(cancelUrl),
 		Discounts: []*stripe.CheckoutSessionDiscountParams{
 			&stripeCoupon,
+		},
+		Metadata: map[string]string{
+			"userid": *stripe.String(user.Id.Hex()),
+			"couponCode":*stripe.String(req.Coupon),
 		},
 	}
 
