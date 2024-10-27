@@ -5,7 +5,7 @@ import "go.mongodb.org/mongo-driver/bson/primitive"
 type Order struct {
 	Id      		primitive.ObjectID		`bson:"_id,omitempty"`
 	User    		User					`json:"user"`
-	Product 		[]ProductQty			`json:"product"`
+	Products 		[]ProductQty			`json:"product"`
 	TotalAmount 	float64					`json:"totalamount"`
-	StripeSession 	string					`json:"stripesession"`
+	StripeSessionId string					`json:"sessionid"`
 }

@@ -10,9 +10,10 @@ import (
 )
 
 var (
-	UserCollection *mongo.Collection
+	UserCollection    *mongo.Collection
 	ProductCollection *mongo.Collection
-	CouponCollection *mongo.Collection
+	CouponCollection  *mongo.Collection
+	OrderCollection   *mongo.Collection
 )
 
 
@@ -29,5 +30,6 @@ func ConnectDB() error{
 	UserCollection = db.Collection("user-collection")
 	ProductCollection = db.Collection("product-collection")
 	CouponCollection = db.Collection("coupon-collection")
+	OrderCollection = db.Collection("order-collection")
 	return nil
 }

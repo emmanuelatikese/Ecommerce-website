@@ -51,10 +51,9 @@ func CheckoutSession(w http.ResponseWriter, r *http.Request){
 			return
 		}
 		coupon = filterCoupon.Code
-
-			totalAmount *= (100 - filterCoupon.Discount)/100
-			newCoupon := CheckCouponForDiscount(filterCoupon, w)
-			stripeCoupon = stripe.CheckoutSessionDiscountParams{Coupon: stripe.String(newCoupon)}
+		totalAmount *= (100 - filterCoupon.Discount)/100
+		newCoupon := CheckCouponForDiscount(filterCoupon, w)
+		stripeCoupon = stripe.CheckoutSessionDiscountParams{Coupon: stripe.String(newCoupon)}
 	}
 	if coupon == ""{
 		stripeCoupon = stripe.CheckoutSessionDiscountParams{}
