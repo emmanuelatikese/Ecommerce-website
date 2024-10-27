@@ -59,7 +59,6 @@ func CheckoutSuccess(w http.ResponseWriter, r *http.Request){
 		"success": true,
 		"message": "payment successfully done",
 		"orderId": orderId.Hex(),
-
 	}
 	response.JsonResponse(res, w, 201)
 }

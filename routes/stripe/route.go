@@ -10,5 +10,11 @@ import (
 
 func StripeRoute(mux *mux.Router){
 	protectorMiddlewareHandler := middlewares.ProtectRoute
-	mux.Handle("/stripe/checkout", protectorMiddlewareHandler(http.HandlerFunc(stripe_section.CheckoutSession))).Methods("POST")
+	mux.Handle("/stripe/checkout",
+	protectorMiddlewareHandler(http.HandlerFunc(
+		stripe_section.CheckoutSession))).Methods("POST")
+
+	mux.Handle("/stripe/success",
+	protectorMiddlewareHandler(http.HandlerFunc(
+		stripe_section.CheckoutSuccess))).Methods("POST")
 }
