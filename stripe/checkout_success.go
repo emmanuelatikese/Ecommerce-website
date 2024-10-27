@@ -40,7 +40,7 @@ func CheckoutSuccess(w http.ResponseWriter, r *http.Request){
 	}
 
 	var allProduct []models.ProductQty
-	 err = json.Unmarshal([]byte(userSession.Metadata["products"]), allProduct)
+	err = json.Unmarshal([]byte(userSession.Metadata["products"]), &allProduct)
 	var newOrder models.Order
 	orderCollection := db_mongo.OrderCollection
 	newOrder = models.Order{
