@@ -28,7 +28,8 @@ func CheckoutSession(w http.ResponseWriter, r *http.Request){
 		http.Error(w, "No products", 404)
 		return
 	}
-
+	strProd, err := json.Marshal(req.Products)
+	response.ErrorHandler(err, w, 500)
 	ctx, couponCollection := r.Context(), db_mongo.CouponCollection
 	user := response.GetUserFromContext(r)
 	var coupon string
@@ -76,6 +77,7 @@ func CheckoutSession(w http.ResponseWriter, r *http.Request){
 		Metadata: map[string]string{
 			"userId": *stripe.String(user.Id.Hex()),
 			"couponCode":*stripe.String(req.Coupon),
+			"products": *stripe.String(string(strProd)),
 		},
 	}
 
