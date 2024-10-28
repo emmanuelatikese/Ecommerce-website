@@ -17,7 +17,7 @@ import (
 
 func CheckoutSession(w http.ResponseWriter, r *http.Request){
 	gotenv.Load()
-	stripe.Key = os.Getenv("STRIPE_PUBLISHABLE_KEY")
+	stripe.Key = os.Getenv("STRIPE_SECRET_KEY")
 	clientUrl := os.Getenv("CLIENT_URL")
 	var req models.ProdCoupon
 
@@ -81,7 +81,10 @@ func CheckoutSession(w http.ResponseWriter, r *http.Request){
 	}
 
 	newSession, err := session.New(params)
-	response.ErrorHandler(err, w, 500)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
 	if totalAmount >= 20000{
 		CreateCoupon(user.Id, ctx, couponCollection,w)
 	}

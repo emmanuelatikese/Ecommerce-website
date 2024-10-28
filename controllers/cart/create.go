@@ -16,16 +16,30 @@ func AddToCart(w http.ResponseWriter, r *http.Request){
 	var productId models.ProductIdQty
 	ctx, userCollection := r.Context(), db_mongo.UserCollection
 	err := json.NewDecoder(r.Body).Decode(&productId)
-	response.ErrorHandler(err, w, http.StatusBadRequest)
+
+	isErr := response.ErrorHandler(err, w, http.StatusBadRequest)
+	if isErr {
+		return
+	}
 	user := response.GetUserFromContext(r)
 	priProductId, err := primitive.ObjectIDFromHex(productId.Id)
-	response.ErrorHandler(err, w, 500)
+	isErr = response.ErrorHandler(err, w, 500)
+	if isErr{ 
+		return
+	}
+
 	updateCart := response.SearchAndUpdateInCart(user.CartItem, priProductId)
 	var filterUser bson.M
 	_, err = userCollection.UpdateOne(ctx, bson.M{"_id": user.Id},
 		bson.M{"$set":bson.M{"cartitem": updateCart}},)
-	response.ErrorHandler(err, w, 500)
+	isErr = response.ErrorHandler(err, w, 500)
+	if isErr {
+		return
+	}
 	err = userCollection.FindOne(ctx, bson.M{"_id": user.Id}).Decode(&filterUser)
-	response.ErrorHandler(err, w, 500)
+	isErr = response.ErrorHandler(err, w, 500)
+	if isErr{
+		return
+	}
 	response.JsonResponse(filterUser["cartitem"], w, 200)
 }

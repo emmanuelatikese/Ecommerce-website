@@ -7,7 +7,7 @@ func GetPrdQty(list []models.Product, cartItems []models.Cart) []models.ProductQ
 	for i := range cartItems{
 		for x := range list{
 			if cartItems[i].ProductId == list[x].Id{
-				prod_quantity = append(prod_quantity, models.ProductQty{Products: list[x],
+				prod_quantity = append(prod_quantity, models.ProductQty{Product: list[x],
 					Quantity: cartItems[i].Quantity})
 			}
 		}
