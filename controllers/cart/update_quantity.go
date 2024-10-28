@@ -19,15 +19,24 @@ func UpdateQuantity(w http.ResponseWriter, r *http.Request){
 	user:= response.GetUserFromContext(r)
 	var ProdQty models.ProductIdQty
 	err := json.NewDecoder(r.Body).Decode(&ProdQty)
-	response.ErrorHandler(err, w, 500)
+	isErr := response.ErrorHandler(err, w, 500)
+	if isErr{
+		return
+	}
 	ctx, userCollection := r.Context(), db_mongo.UserCollection
 	priProductId, err := primitive.ObjectIDFromHex(product_id)
-	response.ErrorHandler(err, w, 500)
+	isErr = response.ErrorHandler(err, w, 500)
+	if isErr{
+		return
+	}
 	var filterUser bson.M
 	new_cart := response.SearchAndChangeQty(user.CartItem, priProductId, ProdQty.Quantity)
 	err = userCollection.FindOneAndUpdate(ctx, bson.M{"_id": user.Id},
 		bson.M{"$set":bson.M{"cart_item": new_cart}},
 		options.FindOneAndUpdate().SetReturnDocument(options.After)).Decode(&filterUser)
-	response.ErrorHandler(err, w, 404)
+	isErr = response.ErrorHandler(err, w, 404)
+	if isErr{
+		return
+	}
 	response.JsonResponse(filterUser["cart_item"], w, 200)
 }

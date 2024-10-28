@@ -26,9 +26,15 @@ func GetRecommendation(w http.ResponseWriter, r *http.Request){
 		},
 	}
 	cursor, err := productCollection.Aggregate(ctx, pipeline)
-	response.ErrorHandler(err, w, 500)
+	isErr := response.ErrorHandler(err, w, 500)
+	if isErr{
+		return
+	}
 	var recommendation []bson.M
 	err = cursor.All(ctx, &recommendation);
-	response.ErrorHandler(err, w, 500)
+	isErr = response.ErrorHandler(err, w, 500)
+	if isErr{
+		return
+	}
 	response.JsonResponse(recommendation, w, 200)
 }

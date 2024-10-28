@@ -18,7 +18,10 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 	var newUser models.User
 	newUserMmap := make(map[string]string)
 	err := json.NewDecoder(r.Body).Decode(&newUserMmap)
-	response.ErrorHandler(err, w, http.StatusBadRequest)
+	isErr := response.ErrorHandler(err, w, http.StatusBadRequest)
+	if isErr{
+		return
+	}
 	userCollection := db_mongo.UserCollection
 	ctx := r.Context()
 	if len(newUserMmap["password"]) < 6{
@@ -50,14 +53,20 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 		Role: newUserMmap["role"],
 	}
 	insert_id, err := userCollection.InsertOne(ctx, newUser)
-	response.ErrorHandler(err, w, 500)
+	isErr = response.ErrorHandler(err, w, 500)
+	if isErr{
+		return
+	}
 	priId, ok := insert_id.InsertedID.(primitive.ObjectID)
 	if !ok{
 		http.Error(w, "can't convert id", 500)
 	}
 	strId := priId.Hex()
 	access_token, refresh_token, err := jwt_util.GenerateToken(strId)
-	response.ErrorHandler(err, w, 500)
+	isErr = response.ErrorHandler(err, w, 500)
+	if isErr{
+		return
+	}
 	redis_db.SetRfToken(strId, refresh_token, ctx)
 	jwt_util.SetCookie(access_token, refresh_token, w)
 	res := map[string]interface{}{

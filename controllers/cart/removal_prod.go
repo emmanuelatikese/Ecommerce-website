@@ -13,7 +13,10 @@ import (
 func RemoveProductCart(w http.ResponseWriter, r *http.Request){
 	var product_id models.ProductIdQty
 	err := json.NewDecoder(r.Body).Decode(&product_id)
-	response.ErrorHandler(err, w, http.StatusBadRequest)
+	isErr := response.ErrorHandler(err, w, http.StatusBadRequest)
+	if isErr{
+		return
+	}
 	user:= response.GetUserFromContext(r)
 	if len(user.CartItem) == 0{
 		response.JsonResponse("Cart is already empty", w, http.StatusNotAcceptable)
@@ -25,6 +28,9 @@ func RemoveProductCart(w http.ResponseWriter, r *http.Request){
 	err = userCollection.FindOneAndUpdate(ctx, bson.M{"_id": user.Id},
 		bson.M{"$set":bson.M{"cartitem": new_cart}}, 
 		options.FindOneAndUpdate().SetReturnDocument(options.After)).Decode(&filterUser)
-	response.ErrorHandler(err, w, 404)
+	isErr = response.ErrorHandler(err, w, 404)
+	if isErr{
+		return
+	}
 	response.JsonResponse(filterUser["cartitem"], w, 200)
 }

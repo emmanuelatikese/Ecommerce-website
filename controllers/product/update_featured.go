@@ -21,7 +21,10 @@ func UpdateFeatured(w http.ResponseWriter, r *http.Request){
 	}
 	ctx, productCollection := r.Context(), db_mongo.ProductCollection
 	strId, err  := primitive.ObjectIDFromHex(Id)
-	response.ErrorHandler(err, w, 500)
+	isErr := response.ErrorHandler(err, w, 500)
+	if isErr{
+		return
+	}
 	var filterProduct models.Product
 	err = productCollection.FindOne(ctx, bson.M{"_id": strId}).Decode(&filterProduct)
 	if err != nil {
@@ -34,12 +37,21 @@ func UpdateFeatured(w http.ResponseWriter, r *http.Request){
 	}
 	filterProduct.IsFeatured = !filterProduct.IsFeatured
 	_, err = productCollection.UpdateOne(ctx, bson.M{"_id": strId}, bson.M{"$set":bson.M{"isfeatured": filterProduct.IsFeatured}})
-	response.ErrorHandler(err, w, http.StatusNotAcceptable)
+	isErr = response.ErrorHandler(err, w, http.StatusNotAcceptable)
+	if isErr{
+		return
+	}
 	var all_featured []bson.M
 	cur, err := productCollection.Find(ctx, bson.M{"isfeatured": true})
-	response.ErrorHandler(err, w, http.StatusNotAcceptable)
+	isErr = response.ErrorHandler(err, w, http.StatusNotAcceptable)
+	if isErr{
+		return
+	}
 	err = cur.All(ctx, &all_featured);
-	response.ErrorHandler(err, w, 500)
+	isErr = response.ErrorHandler(err, w, 500)
+	if isErr{
+		return
+	}
 	redis_db.RedisCli.Set(ctx, "featured_product", all_featured, time.Hour * 24 * 7)
 	response.JsonResponse(filterProduct, w, 200)
 }

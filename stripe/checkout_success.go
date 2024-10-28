@@ -20,7 +20,10 @@ func CheckoutSuccess(w http.ResponseWriter, r *http.Request){
 	user := response.GetUserFromContext(r)
 	var structSession newSession
 	err := json.NewDecoder(r.Body).Decode(&structSession)
-	response.ErrorHandler(err, w, http.StatusBadRequest)
+	isErr := response.ErrorHandler(err, w, http.StatusBadRequest)
+	if isErr{
+			return
+	}
 	sessionId := structSession.Id
 	if sessionId == ""{
 		http.Error(w, "No session Id provided", 404)
@@ -28,20 +31,29 @@ func CheckoutSuccess(w http.ResponseWriter, r *http.Request){
 	}
 	ctx, couponCollection := r.Context(), db_mongo.CouponCollection
 	userSession, err := session.Get(sessionId, nil)
-	response.ErrorHandler(err, w, 500)
+	isErr = response.ErrorHandler(err, w, 500)
+	if isErr{
+			return
+	}
 	if userSession.PaymentStatus == "paid"{
 		userCoupon := userSession.Metadata["couponCode"]
 		if userCoupon != ""{
 			var newCouponUpdate models.Coupons
 			err := couponCollection.FindOneAndUpdate(ctx, bson.M{"code": userCoupon},
 				bson.M{"isactive": false}, options.FindOneAndUpdate().SetReturnDocument(options.After)).Decode(&newCouponUpdate)
-			response.ErrorHandler(err, w, 500)
+			isErr = response.ErrorHandler(err, w, 500)
+			if isErr{
+				return
+			}
 		}
 	}
 
 	var allProduct []models.ProductQty
 	err = json.Unmarshal([]byte(userSession.Metadata["products"]), &allProduct)
-	response.ErrorHandler(err, w, 500)
+	isErr = response.ErrorHandler(err, w, 500)
+	if isErr{
+		return
+	}
 	var newOrder models.Order
 	orderCollection := db_mongo.OrderCollection
 	newOrder = models.Order{
@@ -51,8 +63,10 @@ func CheckoutSuccess(w http.ResponseWriter, r *http.Request){
 		StripeSessionId: sessionId,
 	}
 	insertId, err := orderCollection.InsertOne(ctx, newOrder)
-	response.ErrorHandler(err, w, 505)
-
+	isErr = response.ErrorHandler(err, w, 505)
+	if isErr{
+		return
+	}
 	orderId, _ := insertId.InsertedID.(*primitive.ObjectID)
 	
 	res := map[string]interface{}{

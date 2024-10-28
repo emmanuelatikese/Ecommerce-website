@@ -22,14 +22,19 @@ func CheckoutSession(w http.ResponseWriter, r *http.Request){
 	var req models.ProdCoupon
 
 	err := json.NewDecoder(r.Body).Decode(&req)
-	response.ErrorHandler(err, w, http.StatusBadRequest)
-
+	isErr := response.ErrorHandler(err, w, http.StatusBadRequest)
+	if isErr{
+		return
+	}
 	if len(req.Products) == 0 {
 		http.Error(w, "No products", 404)
 		return
 	}
 	strProd, err := json.Marshal(req.Products)
-	response.ErrorHandler(err, w, 500)
+	isErr = response.ErrorHandler(err, w, 500)
+	if isErr{
+		return
+	}
 	ctx, couponCollection := r.Context(), db_mongo.CouponCollection
 	user := response.GetUserFromContext(r)
 	var coupon string
@@ -39,7 +44,10 @@ func CheckoutSession(w http.ResponseWriter, r *http.Request){
 
 	if req.Coupon != ""{
 		priId, err := primitive.ObjectIDFromHex(req.Coupon)
-		response.ErrorHandler(err, w, 500)
+		isErr = response.ErrorHandler(err, w, 500)
+		if isErr{
+			return
+		}
 		var filterCoupon models.Coupons
 		err = couponCollection.FindOne(ctx, bson.M{"_id": priId, "isactive": true, "userid":user.Id}).Decode(&filterCoupon)
 		if err != nil {
@@ -81,8 +89,8 @@ func CheckoutSession(w http.ResponseWriter, r *http.Request){
 	}
 
 	newSession, err := session.New(params)
-	if err != nil {
-		http.Error(w, err.Error(), 500)
+	isErr = response.ErrorHandler(err, w, 500)
+	if isErr{
 		return
 	}
 	if totalAmount >= 20000{

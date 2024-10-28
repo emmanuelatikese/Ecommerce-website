@@ -14,6 +14,9 @@ func CheckCouponForDiscount(filterCoupon models.Coupons, w http.ResponseWriter)s
 		PercentOff: stripe.Float64(filterCoupon.Discount),
 	}
 	couponStripe, err := coupon.New(NewCoupon)
-	response.ErrorHandler(err, w, 500)
+	isErr := response.ErrorHandler(err, w, 500)
+	if isErr{
+		return ""
+	}
 	return couponStripe.ID
 }

@@ -20,5 +20,8 @@ func CreateCoupon(Id primitive.ObjectID, ctx context.Context, coupon *mongo.Coll
         UserId: Id,
     }
     _, err := coupon.InsertOne(ctx, newCoupon)
-    response.ErrorHandler(err, w, 500)
+    isErr := response.ErrorHandler(err, w, 500)
+	if isErr{
+		return
+	}
 }

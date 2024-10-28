@@ -21,7 +21,10 @@ func ValidateCoupon(w http.ResponseWriter, r *http.Request){
 	ctx, couponCollection :=r.Context(), db_mongo.CouponCollection
 	user := response.GetUserFromContext(r)
 	priId, err := primitive.ObjectIDFromHex(couponId)
-	response.ErrorHandler(err, w, 500)
+	isErr := response.ErrorHandler(err, w, 500)
+	if isErr{
+		return
+	}
 	var filterCoupon models.Coupons
 	err = couponCollection.FindOne(ctx, bson.M{"_id": priId, "userid": user.Id, "isactive": true}).Decode(&filterCoupon)
 	if err != nil {

@@ -17,9 +17,15 @@ func GetCategory(w http.ResponseWriter, r *http.Request){
 	ctx, productCollection := r.Context(), db_mongo.ProductCollection
 	var allCategory []bson.M
 	cur, err := productCollection.Find(ctx, bson.M{"category": category})
-	response.ErrorHandler(err, w, 500)
+	isErr := response.ErrorHandler(err, w, 500)
+	if isErr{
+		return
+	}
 	err = cur.All(ctx, &allCategory);
-	response.ErrorHandler(err, w, 500)
+	isErr = response.ErrorHandler(err, w, 500)
+	if isErr{
+		return
+	}
 	if len(allCategory) == 0 {
 		http.Error(w, "No product fall under this category", 404)
 		return

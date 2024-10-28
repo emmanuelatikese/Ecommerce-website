@@ -30,9 +30,15 @@ func ProtectRoute(next http.Handler) http.Handler{
 		}
 		var filterUser models.User
 		priId, err := primitive.ObjectIDFromHex(userId)
-		response.ErrorHandler(err, w, 500)
+		isErr := response.ErrorHandler(err, w, 500)
+		if isErr{
+			return
+		}
 		err = userCollection.FindOne(ctx, bson.M{"_id": priId}, options.FindOne().SetProjection(bson.M{"password": 0})).Decode(&filterUser)
-		response.ErrorHandler(err, w, http.StatusUnauthorized)
+		isErr = response.ErrorHandler(err, w, http.StatusUnauthorized)
+		if isErr{
+			return
+		}
 		ctx = context.WithValue(r.Context(),"User", filterUser)
 		next.ServeHTTP(w,r.WithContext(ctx))
 	})

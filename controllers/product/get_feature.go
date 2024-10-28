@@ -14,10 +14,16 @@ func GetFeaturedProduct(w http.ResponseWriter, r *http.Request){
 	ctx := r.Context()
 	productCollection := db_mongo.ProductCollection
 	cursor, err := productCollection.Find(ctx, bson.M{"isfeatured": true})
-	response.ErrorHandler(err, w, 500)
+	isErr := response.ErrorHandler(err, w, 500)
+	if isErr{
+		return
+	}
 	defer cursor.Close(ctx)
 	err = cursor.All(ctx, &isFeatured);
-	response.ErrorHandler(err, w, 500)
+	isErr = response.ErrorHandler(err, w, 500)
+	if isErr{
+		return
+	}
 	if len(isFeatured) == 0 {
 		http.Error(w, "No featured products available", 500)
 		return

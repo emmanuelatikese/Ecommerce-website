@@ -18,7 +18,10 @@ func Login(w http.ResponseWriter, r *http.Request){
     ctx := r.Context()
     userCollection := db_mongo.UserCollection
     err := json.NewDecoder(r.Body).Decode(&userLogins)
-    response.ErrorHandler(err, w, http.StatusBadRequest)
+    isErr := response.ErrorHandler(err, w, http.StatusBadRequest)
+	if isErr{
+		return
+	}
     var filterUser models.User
     err = userCollection.FindOne(ctx, bson.M{"username": userLogins["username"]}).Decode(&filterUser)
     if err != nil{
@@ -35,8 +38,11 @@ func Login(w http.ResponseWriter, r *http.Request){
         return
     }
     accessToken, refreshToken, err := jwt_util.GenerateToken(filterUser.Id.Hex())
-	response.ErrorHandler(err, w, 500)
-	redis_db.SetRfToken(filterUser.Id.Hex(), refreshToken, ctx)
+	isErr = response.ErrorHandler(err, w, 500)
+	if isErr{
+		return
+	}
+    redis_db.SetRfToken(filterUser.Id.Hex(), refreshToken, ctx)
 	jwt_util.SetCookie(accessToken, refreshToken, w)
     res := &map[string]interface{}{
         "_id": filterUser.Id,

@@ -23,5 +23,9 @@ func GetCoupons(w http.ResponseWriter, r *http.Request){
 		return
 	}
 	err = cursor.All(ctx, &filterCoupons)
-	response.ErrorHandler(err, w, 500)
+	isErr := response.ErrorHandler(err, w, 500)
+	if isErr{
+		return
+	}
+	response.JsonResponse(filterCoupons, w, 200)
 }
