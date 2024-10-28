@@ -51,5 +51,6 @@ func GetAnalytics(w http.ResponseWriter, r *http.Request){
 	response.JsonResponse(map[string]interface{}{
 		"totalUsers": totalUsers,
 		"totalProduct": totalProduct,
+		"Order":filterOrder,
 	}, w, 200)
 }

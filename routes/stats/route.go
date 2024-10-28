@@ -13,5 +13,4 @@ func StatsRoute(mux *mux.Router){
 		getAnalyticsHandler := http.HandlerFunc(stats_controller.GetAnalytics)
 		mux.Handle("/stats/getAnalytics", protectMiddleware(
 			adminMiddleware(getAnalyticsHandler))).Methods("GET")
-		
 }
