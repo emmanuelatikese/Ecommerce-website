@@ -3,7 +3,6 @@ package redis_db
 import (
 	"context"
 	"os"
-
 	"github.com/go-redis/redis/v8"
 	"github.com/subosito/gotenv"
 )
@@ -14,6 +13,7 @@ func NewClient() error {
 	ctx := context.TODO()
 	gotenv.Load()
 	url := os.Getenv("REDIS_URL")
+
 	RedisCli = redis.NewClient(&redis.Options{
 		Addr:url,
 	})
