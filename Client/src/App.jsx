@@ -5,7 +5,8 @@ function App() {
 
   return (
 
-      <div className='flex h-7 w-5'>
+      <div className='w-full h-screen border-black'>
+      <p>App container</p>
         <Routes>
         <Route element={<SignUp/>} path='/SignUp'/>
         </Routes>

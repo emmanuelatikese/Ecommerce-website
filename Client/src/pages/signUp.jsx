@@ -2,7 +2,7 @@ import { FaUser } from "react-icons/fa6";
 
 const signUp = () => {
   return (
-    <div className="flex justify-center items-center w-80 h-96 gap-4"> 
+    <div className="flex justify-center items-center w-80 h-96 gap-8 bg-black"> 
     <h3>SignUp</h3>
     
     <div >
