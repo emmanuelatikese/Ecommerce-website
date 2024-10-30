@@ -5,8 +5,7 @@ function App() {
 
   return (
 
-      <div className='w-full h-screen border-black'>
-      <p>App container</p>
+      <div className='w-screen h-screen'>
         <Routes>
         <Route element={<SignUp/>} path='/SignUp'/>
         </Routes>
