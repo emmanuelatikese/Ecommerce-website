@@ -5,7 +5,7 @@ function App() {
 
   return (
 
-      <div className='w-screen h-screen'>
+      <div className='w-full h-screen p-0 m-0 bg-dusk-100'>
         <Routes>
         <Route element={<SignUp/>} path='/SignUp'/>
         </Routes>
