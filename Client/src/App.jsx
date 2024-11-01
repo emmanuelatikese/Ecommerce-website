@@ -8,7 +8,7 @@ function App() {
 
   return (
 
-      <div className='w-full h-screen p-0 m-0 bg-dusk-100'>
+      <div className='w-full h-screen p-0 m-0 bg-dusk-100 flex flex-col'>
       <Nav/>
         <Routes>
         <Route element={<SignUp/>} path='/SignUp'/>
