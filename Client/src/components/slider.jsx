@@ -21,6 +21,8 @@ const slider = () => {
                 }
             }
         }
+
+
         modules={[Pagination]}
         className=' w-4/5 h-96 relative top-28'
     >
@@ -28,7 +30,32 @@ const slider = () => {
     <motion.img className='opacity-90 cursor-pointer' whileHover={{scale:1.2, borderRadius:"8px", opacity:0.8, transition:{ ease: easeOut, duration: 0.5}}} 
     exit={{duration:0.5}} src={Trouser} />
     </SwiperSlide>
+
+    <SwiperSlide className=' w-96 h-96 rounded-lg overflow-hidden'>
+    <motion.img className='opacity-90 cursor-pointer' whileHover={{scale:1.2, borderRadius:"8px", opacity:0.8, transition:{ ease: easeOut, duration: 0.5}}} 
+    exit={{duration:0.5}} src={Trouser} />
+    </SwiperSlide>
+
+    <SwiperSlide className=' w-96 h-96 rounded-lg overflow-hidden'>
+    <motion.img className='opacity-90 cursor-pointer' whileHover={{scale:1.2, borderRadius:"8px", opacity:0.8, transition:{ ease: easeOut, duration: 0.5}}} 
+    exit={{duration:0.5}} src={Trouser} />
+    </SwiperSlide>
+
+
+    <SwiperSlide className=' w-96 h-96 rounded-lg overflow-hidden'>
+    <motion.img className='opacity-90 cursor-pointer' whileHover={{scale:1.2, borderRadius:"8px", opacity:0.8, transition:{ ease: easeOut, duration: 0.5}}} 
+    exit={{duration:0.5}} src={Trouser} />
+    </SwiperSlide>
+
+    <SwiperSlide className=' w-96 h-96 rounded-lg overflow-hidden'>
+    <motion.img className='opacity-90 cursor-pointer' whileHover={{scale:1.2, borderRadius:"8px", opacity:0.8, transition:{ ease: easeOut, duration: 0.5}}} 
+    exit={{duration:0.5}} src={Trouser} />
+    </SwiperSlide>
    
+     <SwiperSlide className=' w-96 h-96 rounded-lg overflow-hidden'>
+    <motion.img className='opacity-90 cursor-pointer' whileHover={{scale:1.2, borderRadius:"8px", opacity:0.8, transition:{ ease: easeOut, duration: 0.5}}} 
+    exit={{duration:0.5}} src={Trouser} />
+    </SwiperSlide>
     </Swiper>
   )
 }
