@@ -24,8 +24,9 @@ const slider = () => {
         modules={[Pagination]}
         className=' w-4/5 h-96 relative top-28'
     >
-    <SwiperSlide >
-    <motion.img whileHover={{scale:1.2, borderRadius:8, opacity:0.8, transition:{ ease: easeOut, duration: 0.5}}} src={Trouser} className='w-96 h-96 flex flex-wrap rounded-lg flex-col '/>
+    <SwiperSlide className=' w-96 h-96 rounded-lg overflow-hidden'>
+    <motion.img whileHover={{scale:1.2, borderRadius:"8px", opacity:0.8, transition:{ ease: easeOut, duration: 0.5}}} 
+    exit={{duration:0.5}} src={Trouser} />
     </SwiperSlide>
    
     </Swiper>
