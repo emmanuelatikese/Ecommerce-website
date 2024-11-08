@@ -29,33 +29,14 @@ const slider = () => {
     <SwiperSlide className=' w-96 h-96 rounded-lg overflow-hidden'>
     <motion.img className='opacity-90 cursor-pointer' whileHover={{scale:1.2, borderRadius:"8px", opacity:0.8, transition:{ ease: easeOut, duration: 0.5}}} 
     exit={{duration:0.5}} src={Trouser} />
-    </SwiperSlide>
-
-    <SwiperSlide className=' w-96 h-96 rounded-lg overflow-hidden'>
-    <motion.img className='opacity-90 cursor-pointer' whileHover={{scale:1.2, borderRadius:"8px", opacity:0.8, transition:{ ease: easeOut, duration: 0.5}}} 
-    exit={{duration:0.5}} src={Trouser} />
-    </SwiperSlide>
-
-    <SwiperSlide className=' w-96 h-96 rounded-lg overflow-hidden'>
-    <motion.img className='opacity-90 cursor-pointer' whileHover={{scale:1.2, borderRadius:"8px", opacity:0.8, transition:{ ease: easeOut, duration: 0.5}}} 
-    exit={{duration:0.5}} src={Trouser} />
+    
+    <div className='p-4 w-full  bg-opacity-50 bg-black absolute bottom-0 text-white font-bold '>
+    <h1 className='text-2xl text-marigold-200'>Pair of trousers</h1>
+    <button className='text-white'>View</button>
+    </div>
     </SwiperSlide>
 
 
-    <SwiperSlide className=' w-96 h-96 rounded-lg overflow-hidden'>
-    <motion.img className='opacity-90 cursor-pointer' whileHover={{scale:1.2, borderRadius:"8px", opacity:0.8, transition:{ ease: easeOut, duration: 0.5}}} 
-    exit={{duration:0.5}} src={Trouser} />
-    </SwiperSlide>
-
-    <SwiperSlide className=' w-96 h-96 rounded-lg overflow-hidden'>
-    <motion.img className='opacity-90 cursor-pointer' whileHover={{scale:1.2, borderRadius:"8px", opacity:0.8, transition:{ ease: easeOut, duration: 0.5}}} 
-    exit={{duration:0.5}} src={Trouser} />
-    </SwiperSlide>
-   
-     <SwiperSlide className=' w-96 h-96 rounded-lg overflow-hidden'>
-    <motion.img className='opacity-90 cursor-pointer' whileHover={{scale:1.2, borderRadius:"8px", opacity:0.8, transition:{ ease: easeOut, duration: 0.5}}} 
-    exit={{duration:0.5}} src={Trouser} />
-    </SwiperSlide>
     </Swiper>
   )
 }
