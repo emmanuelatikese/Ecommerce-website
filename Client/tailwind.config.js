@@ -9,7 +9,8 @@ export default {
       colors:{
         color1: "#C1DBF7",
         color2: "#88E4AD",
-        color3: "#4997EB"
+        color3: "#4997EB",
+        writeColor: "#222222"
       },
       boxShadow:{
         "innerShadow": 'inset 0 2px 4px rgba(0, 0, 0, 0.6)',
