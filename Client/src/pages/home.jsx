@@ -11,7 +11,7 @@ const Home = () => {
       <Slider/>
 
       <div className="flex flex-col gap-1">
-        <h1 className="text-4xl font-bold font-custom pt-4">FEATURED PRODUCTS</h1>
+        <h1 className="text-4xl font-bold font-custom pt-24">FEATURED PRODUCTS</h1>
     </div>
 
 

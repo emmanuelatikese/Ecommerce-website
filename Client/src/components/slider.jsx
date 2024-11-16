@@ -12,8 +12,9 @@ const Slider = () => {
         <Swiper
         pagination={{
         dynamicBullets: true,
-        clickable: true
+        clickable: true,
         }}
+        FreeMode={true}
         breakpoints={
             {
                 720:{

@@ -11,7 +11,7 @@ const Nav = () => {
   const user = false
   return (
     <div
-      className="w-full sticky top-5 bg-white h-auto rounded-md p-4 shadow-slate-400 shadow-md flex flex-row flex-wrap justify-between items-center"
+      className="w-full sticky top-5 z-50 bg-white h-auto rounded-md p-4 shadow-slate-400 shadow-md flex flex-row flex-wrap justify-between items-center"
     >
     <h3 className="font-sans">E-commerce</h3>
 
