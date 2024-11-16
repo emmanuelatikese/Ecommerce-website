@@ -5,7 +5,7 @@ import Home from "./pages/home"
 function App() {
 
   return (
-    <div className="w-full p-5 h-screen bg-color1 text-writeColor flex flex-col">
+    <div className="w-full p-5 h-full bg-color1 text-writeColor flex flex-col">
     <NavBar/>
     <Routes>
     <Route path="/Home" element={<Home/>}/>
