@@ -1,3 +1,4 @@
+import FeaturedProduct from "../components/featuredProducts"
 import Slider from "../components/slider"
 
 const Home = () => {
@@ -10,9 +11,9 @@ const Home = () => {
     </div>
       <Slider/>
 
-      <div className="flex flex-col gap-1">
-        <h1 className="text-4xl font-bold font-custom pt-24">FEATURED PRODUCTS</h1>
-    </div>
+
+        <h1 className="text-4xl font-bold font-custom pt-24 pb-5">FEATURED PRODUCTS</h1>
+    <FeaturedProduct/>
 
 
     </div>
