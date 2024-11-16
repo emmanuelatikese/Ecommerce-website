@@ -18,7 +18,8 @@ export default {
       fontSize:{
         sm: '0.6rem',
         "dash": '0.8rem'
-      }
+      },
+      fontFamily: { custom: "BastedClub", }
     },
   },
   plugins: [],

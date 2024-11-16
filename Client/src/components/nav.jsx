@@ -4,12 +4,11 @@ import { MdHomeFilled } from "react-icons/md";
 import { PiShoppingCartSimpleFill } from "react-icons/pi";
 import { IoLogOutSharp } from "react-icons/io5";
 import { IoLogInSharp } from "react-icons/io5";
-import { useState } from "react";
 import { IoMdPersonAdd } from "react-icons/io";
 
 
 const Nav = () => {
-  const [user, setUser] = useState(false)
+  const user = false
   return (
     <div
       className="w-full sticky bg-white h-auto rounded-md p-4 shadow-slate-400 shadow-md flex flex-row flex-wrap justify-between items-center"
