@@ -2,7 +2,7 @@ import { FaUser } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
 import { Link } from "react-router-dom";
-
+import { IoMdPersonAdd } from 'react-icons/io';
 
 
 const SignUp = () => {
@@ -35,8 +35,8 @@ const SignUp = () => {
         </div>
 
     </div>
-     <Link>
-        <button className="bg-color2 text-white p-4 w-36 shadow-md rounded"> SignUp</button>
+     <Link className="">
+        <button className="bg-color2 text-white p-2 w-36 shadow-md rounded font-bold font-custom flex flex-row items-center gap-4"> <IoMdPersonAdd className="text-white w-8 h-8"/> <p>SignUp</p></button>
      </Link>
     </div>
     
