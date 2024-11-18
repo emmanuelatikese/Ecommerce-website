@@ -3,6 +3,7 @@ import NavBar from "./components/nav"
 import Home from "./pages/home"
 import SignUp from "./pages/signUp";
 import Login from "./pages/login";
+import CreateProduct from "./pages/AdminDashboard/createProduct";
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
     <Route path="/Home" element={<Home/>}/>
     <Route path="/SignUp" element={<SignUp/>} />
     <Route path="/Login" element={<Login/>} />
+    <Route path="/Create" element={<CreateProduct/>} />
     </Routes>
     </div>
   )
