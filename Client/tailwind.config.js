@@ -10,6 +10,7 @@ export default {
         color1: "#C1DBF7",
         color2: "#88E4AD",
         color3: "#4997EB",
+        color4: "#F2F6FB",
         writeColor: "#222222"
       },
       boxShadow:{
