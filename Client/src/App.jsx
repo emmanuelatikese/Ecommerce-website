@@ -4,6 +4,7 @@ import Home from "./pages/home"
 import SignUp from "./pages/signUp";
 import Login from "./pages/login";
 import CreateProduct from "./pages/AdminDashboard/createProduct";
+import AllProduct from "./pages/AdminDashboard/listProduct";
 
 function App() {
 
@@ -14,7 +15,8 @@ function App() {
     <Route path="/Home" element={<Home/>}/>
     <Route path="/SignUp" element={<SignUp/>} />
     <Route path="/Login" element={<Login/>} />
-    <Route path="/Create" element={<CreateProduct/>} />
+    <Route path="/Create" element={<CreateProduct/>}/>
+    <Route path="/AllProducts" element={<AllProduct/>} />
     </Routes>
     </div>
   )

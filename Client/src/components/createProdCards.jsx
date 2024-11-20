@@ -10,7 +10,7 @@ const CreateProdCards = () => {
     <h1 className="font-bold font-custom text-color3">CREATE PRODUCT </h1>
     <div className="w-80 flex flex-col gap-6">
 
-      <div className="flex flex-row gap-2 items-center pl-4  bg-color4 rounded-md shadow-md">
+      <div className="flex flex-row gap-2 items-center pl-4 bg-color4 rounded-md shadow-md">
        <HiMiniRectangleStack className="w-6 text-color3"/>
       <input type="text" placeholder="Product name" className="w-72 bg-color4 text-dash p-2 outline-none font-bold"/>
       </div>
@@ -26,8 +26,8 @@ const CreateProdCards = () => {
       </div>
 
       <div className="flex flex-col gap-1 justify-start">
-      <select className="text-dash bg-color4 p-2 pl-6 outline-none rounded-lg shadow-md font-bold">
-      <option value="" disabled selected className="outline-none" > <p className="text-gray-400">Select a category</p></option>
+      <select  className="text-dash bg-color4 p-2 pl-6 outline-none rounded-lg shadow-md font-bold">
+      <option value="" disabled selected className="outline-none" > Select a category</option>
       <option className="outline-none"></option>
       </select>
       </div>
