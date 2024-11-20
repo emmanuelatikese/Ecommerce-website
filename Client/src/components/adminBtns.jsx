@@ -5,7 +5,7 @@ import { HiMiniRectangleStack } from "react-icons/hi2";
 
 const AdminBtn = () => {
   return (
-    <div className="flex flex-row gap-4 items-center absolute top-40">
+    <div className="flex flex-row gap-4 items-center">
       
         <Link>
         <button className=" bg-color2 flex items-center gap-4 p-2 text-white rounded-md shadow-md">
