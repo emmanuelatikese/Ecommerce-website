@@ -7,12 +7,16 @@ const AllProduct = () => {
     <h1 className="text-4xl font-bold font-custom pt-2">ADMIN DASHBOARD</h1>
     <AdminBtn/>
 
-    <div className="flex flex-col gap-4 items-center">
+    <div className="flex flex-col gap-4 items-center p-4 bg-white rounded-md shadow-md">
     
-    <div className="flex flex-row items-start ">
+    <div className="flex flex-row items-start w-96 gap-4">
     <img src={Trouser} className="w-60 h-60"/>
     <div className="flex flex-col gap-2">
-    
+        <p>Name: </p>
+        <p>Price: </p>
+        <p>Category: </p>
+        <p>Featured: </p>
+        <p>Action: </p>
     </div>
     </div>
     
