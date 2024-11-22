@@ -1,23 +1,16 @@
-import FeaturedCard from "./featuredCard"
+import CategoryCards from "./ProdCards"
 
 
 const FeaturedProduct = () => {
   return (
-        <div className="flex flex-row w-3/4 items-center gap-6 flex-wrap">
-
-        <FeaturedCard/>
+        <div className="flex flex-row p-12 justify-center items-center gap-4 flex-wrap">
+        <CategoryCards/>
+        <CategoryCards/>
+        <CategoryCards/>
+        <CategoryCards/>
+        <CategoryCards/>
+        <CategoryCards/>
         
-        <FeaturedCard/>
-        
-        <FeaturedCard/>
-        
-        <FeaturedCard/>
-        
-        <FeaturedCard/>
-        
-        <FeaturedCard/>
-        <FeaturedCard/>
-        <FeaturedCard/>
         </div>
   )
 }

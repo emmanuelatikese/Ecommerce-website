@@ -5,11 +5,11 @@ import { ImPriceTags } from "react-icons/im"
 
 
 
-const CategoryCards = () => {
+const ProdCards = () => {
   return (
-    <div className="bg-white flex flex-col p-4 rounded-md">
+    <div className="bg-color4 shadow-md flex flex-col p-4 rounded-md gap-4">
         <img  src={Trouser} className="w-60 rounded-md shadow-md"/>
-        <div className=" bg-white p-5 flex flex-col gap-4">
+        <div className=" bg-white p-5 flex flex-col gap-4 rounded-md shadow-md">
                   <div className="flex flex-row items-center gap-5">
                               <HiMiniRectangleStack className="w-8 h-8 text-color3"/>
                               <p className="font-custom ">TROUSER</p>
@@ -28,4 +28,4 @@ const CategoryCards = () => {
   )
 }
 
-export default CategoryCards
+export default ProdCards
