@@ -5,6 +5,7 @@ import SignUp from "./pages/signUp";
 import Login from "./pages/login";
 import CreateProduct from "./pages/AdminDashboard/createProduct";
 import AllProduct from "./pages/AdminDashboard/listProduct";
+import Category from "./pages/category";
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
     <Route path="/Login" element={<Login/>} />
     <Route path="/Create" element={<CreateProduct/>}/>
     <Route path="/AllProducts" element={<AllProduct/>} />
+    <Route path="/Category" element={<Category/>} />
     </Routes>
     </div>
   )
