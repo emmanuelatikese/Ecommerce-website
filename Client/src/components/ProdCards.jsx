@@ -21,7 +21,7 @@ const ProdCards = () => {
                   </div>
                                 <div className="cursor-pointer border-color2 border-2 p-2 flex flex-row items-center text-color2 font-bold gap-8"> 
                                 <PiShoppingCartSimpleFill className="w-8 h-8 text-color2"/>
-                                <p>VIEW </p>
+                                <p className="text-dash">ADD TO CART </p>
                                 </div>
               </div>
     </div>
