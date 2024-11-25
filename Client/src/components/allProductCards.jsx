@@ -6,9 +6,9 @@ import { BiSolidCategory } from "react-icons/bi";
 
 const AllProductCards = () => {
   return (
-<div className="flex flex-row items-start ">
-    <img src={Trouser} className="w-60 h-60 rounded-md shadow-md rounded-tr-none"/>
-    <div className="flex flex-col gap-2 p-4 rounded-l-none rounded-md shadow-md items-center w-40 bg-white">
+<div className="flex flex-row items-start gap-2">
+    <img src={Trouser} className="w-60 h-60 rounded-md shadow-md"/>
+    <div className="flex flex-col gap-2 p-4  rounded-md shadow-md items-center w-40 bg-white">
         <p className="font-custom text-dash">Trouser</p>
         <div className="flex flex-row gap-4">
             <div className="flex flex-row items-center gap-1">
