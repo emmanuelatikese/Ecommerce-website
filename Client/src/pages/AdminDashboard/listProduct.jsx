@@ -14,7 +14,7 @@ const AllProduct = () => {
     <AllProductCards />
     <AllProductCards />
     <AllProductCards />
-    <AllProductCards /><AllProductCards />
+    <AllProductCards />
     <AllProductCards />
     <AllProductCards />
     <AllProductCards />
