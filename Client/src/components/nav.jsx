@@ -33,7 +33,7 @@ const Nav = () => {
     </Link>
 }
 
-    <Link className="bg-color2  text-dash  font-bold text-center p-2 text-white rounded-md shadow-md"> Dashboard </Link>
+    <Link className="bg-green-700 text-dash  font-bold text-center p-2 text-white rounded-md shadow-md"> Dashboard </Link>
     
     { user ? <Link>
         <IoLogOutSharp className="w-8 h-8 bg-color3 text-white shadow-md shadow-color1 rounded"/>

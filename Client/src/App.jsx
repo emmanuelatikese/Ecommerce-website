@@ -6,7 +6,7 @@ import Login from "./pages/login";
 import CreateProduct from "./pages/AdminDashboard/createProduct";
 import AllProduct from "./pages/AdminDashboard/listProduct";
 import Category from "./pages/category";
-import Order from "./pages/order";
+
 import Cart from "./pages/cart";
 
 function App() {
@@ -21,7 +21,6 @@ function App() {
     <Route path="/Create" element={<CreateProduct/>}/>
     <Route path="/AllProducts" element={<AllProduct/>} />
     <Route path="/Category" element={<Category/>} />
-    <Route path="/Order" element={<Order/>} />
     <Route path="/Cart" element={<Cart/>} />
     </Routes>
     </div>
