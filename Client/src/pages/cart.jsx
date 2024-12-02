@@ -12,7 +12,7 @@ const Cart = () => {
       {IsEmpty ? <EmptyCart/> :
 
         <div className="flex flex-row  w-11/12">
-            <div className=" flex flex-col justify-center items-center  w-10/12 ">
+            <div className="flex flex-col justify-center items-center  w-10/12 ">
               <CartCards/>
             </div>
             <OrderSummary/>
