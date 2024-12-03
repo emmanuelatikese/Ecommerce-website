@@ -3,7 +3,6 @@ import EmptyCart from "../components/emptyCart"
 import OrderSummary from "../components/order";
 import CartCards from './../components/cartCards';
 
-
 const Cart = () => {
   const IsEmpty = false
   return (
