@@ -1,7 +1,7 @@
 
 import EmptyCart from "../components/emptyCart"
 import OrderSummary from "../components/order";
-import AlsoBoughtSlider from "../components/recomSlider";
+
 import CartCards from './../components/cartCards';
 
 const Cart = () => {
@@ -18,7 +18,7 @@ const Cart = () => {
               <CartCards/>
 
               <p className="text-lg font-custom text-black pt-8 pb-8">People also bought</p>
-              <AlsoBoughtSlider/>
+
             </div>
             <OrderSummary/>
         </div>
